@@ -100,7 +100,7 @@ namespace SkinPackMaker
             }
             if (HWCheckbox.Checked)
             {
-                LastSelected.data.HWMaterials.Clear();
+                LastSelected.data.HWMaterials = new List<MaterialData>();
                 foreach (var p in HWMaterialProperties)
                 {
                     LastSelected.data.HWMaterials.Add(p.data);

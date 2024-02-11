@@ -319,6 +319,7 @@ namespace SkinPackMaker
             this.button10.Tag = "TitanBundleTextbox";
             this.button10.Text = "Browse...";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.FileButton);
             // 
             // groupBox4
             // 
@@ -382,6 +383,7 @@ namespace SkinPackMaker
             this.button9.Tag = "TeenBundleTextbox";
             this.button9.Text = "Browse...";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.FileButton);
             // 
             // groupBox3
             // 
@@ -446,6 +448,7 @@ namespace SkinPackMaker
             this.button8.Tag = "AdultBundleTextbox";
             this.button8.Text = "Browse...";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.FileButton);
             // 
             // groupBox2
             // 
@@ -509,6 +512,7 @@ namespace SkinPackMaker
             this.button7.Tag = "BabyBundleTextbox";
             this.button7.Text = "Browse...";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.FileButton);
             // 
             // label7
             // 
@@ -908,7 +912,7 @@ namespace SkinPackMaker
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "Skin Pack Maker - 1.0.1";
+            this.Text = "Skin Pack Maker - 1.0.2";
             this.MainPanel.Panel1.ResumeLayout(false);
             this.MainPanel.Panel2.ResumeLayout(false);
             this.MainPanel.Panel2.PerformLayout();
