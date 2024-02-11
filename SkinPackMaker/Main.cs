@@ -969,7 +969,8 @@ namespace SkinPackMaker
             { "Songwing", (123, new[] { "DWSongwing" })},
             { "Sandbuster", (122, new[] { "Sandbuster", "Spikes" })},
             { "Sword Stealer", (125, new[] { "DWSwordstealer", "DragonSpikesMesh" })},
-            { "Light Fury", (126, new[] { "DWLightfury", "DWNightlight" })}
+            { "Light Fury", (126, new[] { "DWLightfury", "DWNightlight" })},
+            { "Crimson Holwer", (128, new[] { "PfDWCrimsonHolwer" })}
         };
     }
 
