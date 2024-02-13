@@ -44,6 +44,11 @@ namespace SkinPackMaker
             var args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && args[1].ToLowerInvariant().EndsWith(".spproject") && File.Exists(args[1]))
                 TryOpenFile(args[1]);
+            FormClosing += (x, y) =>
+            {
+                if (!EnsureFileSaved())
+                    y.Cancel = true;
+            };
         }
 
         public void ValidateKeyNumericTextbox(object sender, KeyPressEventArgs e)
@@ -55,6 +60,7 @@ namespace SkinPackMaker
                 e.Handled = true;
         }
 
+        ColorSelector SelectColor = new ColorSelector();
         public void PickColor(object sender, EventArgs e)
         {
             if (sender is Button button)
@@ -271,6 +277,7 @@ namespace SkinPackMaker
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
                         new MaterialData() { Property = Constants.TextureProperties.Keys.First() }));
+            ControlChanged(sender, e);
         }
 
         void AddColorButton(object sender, EventArgs e)
@@ -280,7 +287,8 @@ namespace SkinPackMaker
                     .Add(new ColorMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
-                        new MaterialData() { Property = Constants.ColorProperties.Keys.First(), Value = "00000000" }));
+                        new MaterialData() { Property = Constants.ColorProperties.Keys.First(), Value = Constants.ColorProperties.Values.First().Item2.ToHex() }));
+            ControlChanged(sender, e);
         }
 
         void AddNumberButton(object sender, EventArgs e)
@@ -290,7 +298,8 @@ namespace SkinPackMaker
                     .Add(new FloatMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
-                        new MaterialData() { Property = Constants.FloatProperties.Keys.First(), Value = "0" }));
+                        new MaterialData() { Property = Constants.FloatProperties.Keys.First(), Value = Constants.FloatProperties.Values.First().Item2.ToString() }));
+            ControlChanged(sender, e);
         }
 
         public void RemoveMaterialProperty(MaterialProperty property)
@@ -298,6 +307,7 @@ namespace SkinPackMaker
             MaterialProperties.Remove(property);
             HWMaterialProperties.Remove(property);
             property.Dispose();
+            ControlChanged(null, null);
         }
 
         void AddNewSkin(object sender, EventArgs e)
@@ -368,6 +378,7 @@ namespace SkinPackMaker
             {
                 using (var stream = File.Open(filename,FileMode.Create,FileAccess.Write,FileShare.None))
                     serializer.WriteObject(stream, SkinControls.Select(s => s.data).ToArray());
+                UnsavedPackChanges = false;
                 CurrentFile = filename;
                 return true;
             }
@@ -548,14 +559,14 @@ namespace SkinPackMaker
                     }
                     data.MaterialData = s.data.Materials.Select(x => new SimpleResourceReplacer.MaterialProperty() {
                         Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
-                        Property = x.Property,
+                        Property = x.RealProperty,
                         Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
                     }).ToArray();
                     if (s.data.HWMaterials != null)
                         data.HWMaterialData = s.data.HWMaterials.Select(x => new SimpleResourceReplacer.MaterialProperty()
                         {
                             Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
-                            Property = x.Property,
+                            Property = x.RealProperty,
                             Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
                         }).ToArray();
                     packagedFiles[$"{ind}-{s.data.Name}.skin"] = ($"{ind++}-{s.data.Name}.skin", data.JsonSerialize());
@@ -616,6 +627,7 @@ namespace SkinPackMaker
             img.Location = new Point(3, 3);
             img.Size = new Size(100, 100);
             img.Name = "SkinIcon";
+            img.SizeMode = PictureBoxSizeMode.Zoom;
             img.Click += (x, y) => main.TrySelectSkin(this);
 
             lbl.AutoSize = true;
@@ -652,6 +664,8 @@ namespace SkinPackMaker
         public Part Part;
         public string Property;
         public string Value;
+
+        public string RealProperty => Constants.TextureProperties.TryGetValue(Property, out var n) ? n : Constants.ColorProperties.TryGetValue(Property, out var n2) ? n2.Item1 : Constants.FloatProperties.TryGetValue(Property, out var n3) ? n3.Item1 : Property;
     }
 
     public enum Age
@@ -665,7 +679,8 @@ namespace SkinPackMaker
     public enum Part
     {
         Both,
-        Eye,
+        Eyes,
+        Eye = Eyes,
         Body
     }
 
@@ -705,7 +720,7 @@ namespace SkinPackMaker
             TargetPart.Location = new Point(159, 3);
             TargetPart.Size = new Size(150, 21);
             TargetPart.Name = "Part";
-            TargetPart.SetContents(Enum.GetNames(typeof(Part)), data.Part.ToString());
+            TargetPart.SetContents(Enum.GetNames(typeof(Part)).Where(x => x != "Eye"), data.Part.ToString());
             TargetPart.SelectedIndexChanged += main.ControlChanged;
 
             Btn.Location = new Point(315, 3);
@@ -792,19 +807,30 @@ namespace SkinPackMaker
             Label.Text = "Color:";
             Label.Name = "ColorLabel";
 
+            Btn.BackColor = material.Value.HexToColor();
             Btn.Location = new Point(58, 57);
             Btn.Size = new Size(23, 23);
             Btn.UseVisualStyleBackColor = false;
             Btn.Name = "ColorButton";
-            Btn.BackColor = Color.FromArgb(uint.TryParse(material.Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var c) ? c.AsInt() : 0);
             Btn.BackColorChanged += main.ControlChanged;
             Btn.Click += main.PickColor;
+
+            lastProp = Property.Items[Property.SelectedIndex].ToString();
+            Property.SelectedIndexChanged += (x, y) =>
+            {
+                if (Equals(Btn.BackColor, Constants.ColorProperties[lastProp].Item2))
+                    Btn.BackColor = Constants.ColorProperties[Property.Items[Property.SelectedIndex].ToString()].Item2;
+                lastProp = Property.Items[Property.SelectedIndex].ToString();
+            };
         }
+        string lastProp;
+
+        static bool Equals(Color a, Color b) => a.R == b.R && a.G == b.G && a.B == b.B && a.A == b.A;
 
         public override void Save()
         {
             base.Save();
-            data.Value = $"{Btn.BackColor.ToArgb().AsUInt():X8}";
+            data.Value = Btn.BackColor.ToHex();
         }
     }
 
@@ -830,7 +856,16 @@ namespace SkinPackMaker
             Input.Text = data.Value;
             Input.KeyPress += main.ValidateKeyNumericTextbox;
             Input.TextChanged += main.ControlChanged;
+
+            lastProp = Property.Items[Property.SelectedIndex].ToString();
+            Property.SelectedIndexChanged += (x, y) =>
+            {
+                if (Input.Text == Constants.FloatProperties[lastProp].Item2.ToString())
+                    Input.Text = Constants.FloatProperties[Property.Items[Property.SelectedIndex].ToString()].Item2.ToString();
+                lastProp = Property.Items[Property.SelectedIndex].ToString();
+            };
         }
+        string lastProp;
 
         public override void Save()
         {
@@ -851,20 +886,20 @@ namespace SkinPackMaker
             {"Glow Map","_MKGlowTex" },
             {"Specular Map","_SpecularMap" }
         };
-        public static SortedDictionary<string, string> ColorProperties = new SortedDictionary<string, string>()
+        public static SortedDictionary<string, (string, Color)> ColorProperties = new SortedDictionary<string, (string, Color)>()
         {
-            {"Emissive Colour","_EmissiveColor" },
-            {"Glow Colour","_MKGlowColor" },
-            {"Glow Texture Colour","_MKGlowTexColor" },
-            {"Specular Colour","_SpecColor" }
+            {"Emissive Colour",("_EmissiveColor", Color.Black) },
+            {"Glow Colour",("_MKGlowColor", Color.White) },
+            {"Glow Texture Colour",("_MKGlowTexColor", Color.White) },
+            {"Specular Colour",("_SpecColor", Color.Gray) }
         };
-        public static SortedDictionary<string, string> FloatProperties = new SortedDictionary<string, string>()
+        public static SortedDictionary<string, (string, float)> FloatProperties = new SortedDictionary<string, (string, float)>()
         {
-            {"Normal Strength","_BumpStrength" },
-            {"Decal Opacity","_DecalOpacity" },
-            {"Glossiness","_Glossiness" },
-            {"Glow Power","_MKGlowPower" },
-            {"Glow Texture Strength","_MKGlowTexStrength" }
+            {"Normal Strength",("_BumpStrength", 1) },
+            {"Decal Opacity",("_DecalOpacity",0) },
+            {"Glossiness",("_Glossiness",0.5f) },
+            {"Glow Power",("_MKGlowPower",0) },
+            {"Glow Texture Strength",("_MKGlowTexStrength",0) }
         };
         public static Dictionary<string, string> OpenFileTypes = new Dictionary<string, string>()
         {
@@ -1103,5 +1138,108 @@ namespace SkinPackMaker
             }
         }
         public static byte[] JsonSerialize(this object graph, Encoding encoding = null) => new DataContractJsonSerializer(graph.GetType()).Serialize(graph,encoding);
+    }
+
+    public static class ColorConvert
+    {
+        public static void ToHSL(this Color c, out int hue, out int saturation, out int luminosity) => ToHSL(c.R, c.G, c.B, out hue, out saturation, out luminosity);
+        public static void ToHSL(byte R, byte G, byte B, out int hue, out int saturation, out int luminosity)
+        {
+            var max = Math.Max(Math.Max(R, G), B);
+            var min = Math.Min(Math.Min(R, G), B);
+            luminosity = max;
+            if (min == max)
+            {
+                hue = 0;
+                saturation = 0;
+                return;
+            }
+            saturation = (max - min) * 255 / max;
+            if (R == max)
+            {
+                if (G >= B)
+                    hue = (G - min) * 60 / (max - min);
+                else
+                    hue = 360 - (B - min) * 60 / (max - min);
+            }
+            else if (G == max)
+            {
+                if (B >= R)
+                    hue = 120 + (B - min) * 60 / (max - min);
+                else
+                    hue = 120 - (R - min) * 60 / (max - min);
+            }
+            else
+            {
+                if (R >= G)
+                    hue = 240 + (R - min) * 60 / (max - min);
+                else
+                    hue = 240 - (G - min) * 60 / (max - min);
+            }
+        }
+        public static Color FromHSL(int hue, int saturation, int luminosity)
+        {
+            FromHSL(hue, saturation, luminosity, out var R, out var G, out var B);
+            return Color.FromArgb(R, G, B);
+        }
+        public static void FromHSL(int hue, int saturation, int luminosity, out byte R, out byte G, out byte B)
+        {
+            hue %= 360;
+            if (hue < 0)
+                hue += 360;
+            if (saturation > 255)
+                saturation = 255;
+            else if (saturation < 0)
+                saturation = 0;
+            if (luminosity > 255)
+                luminosity = 255;
+            else if (luminosity < 0)
+                luminosity = 0;
+            var max = (byte)luminosity;
+            if (saturation == 0)
+            {
+                R = G = B = max;
+                return;
+            }
+            var min = (byte)(max - (saturation * max / 255));
+            if (hue <= 60)
+            {
+                B = min;
+                R = max;
+                G = (byte)(min + hue * (max - min) / 60);
+            }
+            else if (hue <= 120)
+            {
+                B = min;
+                G = max;
+                R = (byte)(min + (120 - hue) * (max - min) / 60);
+            }
+            else if (hue <= 180)
+            {
+                R = min;
+                G = max;
+                B = (byte)(min + (hue - 120) * (max - min) / 60);
+            }
+            else if (hue <= 240)
+            {
+                R = min;
+                B = max;
+                G = (byte)(min + (240 - hue) * (max - min) / 60);
+            }
+            else if (hue <= 300)
+            {
+                G = min;
+                B = max;
+                R = (byte)(min + (hue - 240) * (max - min) / 60);
+            }
+            else
+            {
+                G = min;
+                R = max;
+                B = (byte)(min + (360 - hue) * (max - min) / 60);
+            }
+        }
+        public static Color HexToColor(this string str) => uint.TryParse(str, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var c) ? Color.FromArgb(c.AsInt()) : Color.Black;
+        public static string ToHex(this Color c) => $"{c.ToArgb().AsUInt():X8}";
     }
 }

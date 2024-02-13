@@ -98,7 +98,6 @@ namespace SkinPackMaker
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exportResourcePackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SelectColor = new System.Windows.Forms.ColorDialog();
             this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.MainPanel)).BeginInit();
@@ -912,7 +911,7 @@ namespace SkinPackMaker
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "Skin Pack Maker - 1.0.2";
+            this.Text = "Skin Pack Maker - 1.1.0";
             this.MainPanel.Panel1.ResumeLayout(false);
             this.MainPanel.Panel2.ResumeLayout(false);
             this.MainPanel.Panel2.PerformLayout();
@@ -1005,7 +1004,6 @@ namespace SkinPackMaker
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.CheckBox HWCheckbox;
-        private System.Windows.Forms.ColorDialog SelectColor;
         private System.Windows.Forms.OpenFileDialog OpenDialog;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
