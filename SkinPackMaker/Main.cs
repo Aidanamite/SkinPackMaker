@@ -485,7 +485,7 @@ namespace SkinPackMaker
                     if (d.ContainsKey(asset))
                         return;
                     if (!packagedFiles.ContainsKey(lFile))
-                        packagedFiles[lFile] = ($"{ind}-{Path.GetFileName(file)}", File.ReadAllBytes(file));
+                        packagedFiles[lFile] = ($"{ind}-{Path.GetFileName(file)}{(lFile.EndsWith(".bundle") ? "" : ".bundle")}", File.ReadAllBytes(file));
                     d[asset] = $"RS_SHARED/{tick}-{simpleName}/{ind++}-{asset}";
                 }
                 foreach (var s in SkinControls)
