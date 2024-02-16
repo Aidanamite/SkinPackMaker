@@ -59,6 +59,7 @@ namespace SkinPackMaker
 
         void UpdateSliders(Color nColor, string called = null, int value = 0)
         {
+            SuspendLayout();
             _c = nColor;
             if (called == "A")
             {
@@ -108,6 +109,7 @@ namespace SkinPackMaker
                     for (int j = 0; j < bit.Height; j++)
                         bit.SetPixel(i, j, i < bit.Width / 2 ? solid : _c);
             ResultDisplay.Invalidate();
+            ResumeLayout();
         }
 
         void UpdateGradients()

@@ -31,14 +31,40 @@ namespace SkinPackMaker
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.MainPanel = new System.Windows.Forms.SplitContainer();
-            this.SkinsLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.button17 = new System.Windows.Forms.Button();
+            this.EquipmentLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.CopySkinButton = new System.Windows.Forms.Button();
             this.RemoveSkinButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.helpButton5 = new SkinPackMaker.HelpButton();
+            this.helpButton4 = new SkinPackMaker.HelpButton();
+            this.helpButton3 = new SkinPackMaker.HelpButton();
+            this.helpButton2 = new SkinPackMaker.HelpButton();
+            this.helpButton1 = new SkinPackMaker.HelpButton();
+            this.button19 = new SkinPackMaker.HelpButton();
+            this.IIDInput = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
             this.button20 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
+            this.TypeSelector = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TypeInput = new System.Windows.Forms.NumericUpDown();
+            this.button4 = new System.Windows.Forms.Button();
+            this.IconTextbox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CIDInput = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.NameTextbox = new System.Windows.Forms.TextBox();
+            this.SkinPanel = new System.Windows.Forms.Panel();
+            this.helpButton6 = new SkinPackMaker.HelpButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.RendererList = new System.Windows.Forms.ListBox();
+            this.RendererTextbox = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.helpButton7 = new SkinPackMaker.HelpButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label14 = new System.Windows.Forms.Label();
             this.TitanAssetTextbox = new System.Windows.Forms.TextBox();
@@ -63,33 +89,34 @@ namespace SkinPackMaker
             this.BabyBundleTextbox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.helpButton8 = new SkinPackMaker.HelpButton();
             this.MaterialsLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.button13 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
+            this.helpButton9 = new SkinPackMaker.HelpButton();
             this.HWPanel = new System.Windows.Forms.Panel();
+            this.helpButton10 = new SkinPackMaker.HelpButton();
             this.HWMaterialsLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.HWCheckbox = new System.Windows.Forms.CheckBox();
-            this.TypeSelector = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.TypeInput = new System.Windows.Forms.NumericUpDown();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.RendererTextbox = new System.Windows.Forms.TextBox();
-            this.RendererList = new System.Windows.Forms.ListBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.IconTextbox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.IDInput = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.NameTextbox = new System.Windows.Forms.TextBox();
+            this.SaddlePanel = new System.Windows.Forms.Panel();
+            this.helpButton13 = new SkinPackMaker.HelpButton();
+            this.helpButton12 = new SkinPackMaker.HelpButton();
+            this.helpButton11 = new SkinPackMaker.HelpButton();
+            this.label18 = new System.Windows.Forms.Label();
+            this.SaddleTextureTextbox = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.SaddleAssetTextbox = new System.Windows.Forms.TextBox();
+            this.SaddleBundleTextbox = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +131,10 @@ namespace SkinPackMaker
             this.MainPanel.Panel1.SuspendLayout();
             this.MainPanel.Panel2.SuspendLayout();
             this.MainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IIDInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TypeInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CIDInput)).BeginInit();
+            this.SkinPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -114,8 +145,7 @@ namespace SkinPackMaker
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.HWPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TypeInput)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IDInput)).BeginInit();
+            this.SaddlePanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,7 +160,8 @@ namespace SkinPackMaker
             // MainPanel.Panel1
             // 
             this.MainPanel.Panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.MainPanel.Panel1.Controls.Add(this.SkinsLayout);
+            this.MainPanel.Panel1.Controls.Add(this.button17);
+            this.MainPanel.Panel1.Controls.Add(this.EquipmentLayout);
             this.MainPanel.Panel1.Controls.Add(this.CopySkinButton);
             this.MainPanel.Panel1.Controls.Add(this.RemoveSkinButton);
             this.MainPanel.Panel1.Controls.Add(this.button1);
@@ -139,76 +170,179 @@ namespace SkinPackMaker
             // MainPanel.Panel2
             // 
             this.MainPanel.Panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.MainPanel.Panel2.Controls.Add(this.helpButton5);
+            this.MainPanel.Panel2.Controls.Add(this.helpButton4);
+            this.MainPanel.Panel2.Controls.Add(this.helpButton3);
+            this.MainPanel.Panel2.Controls.Add(this.helpButton2);
+            this.MainPanel.Panel2.Controls.Add(this.helpButton1);
+            this.MainPanel.Panel2.Controls.Add(this.button19);
+            this.MainPanel.Panel2.Controls.Add(this.IIDInput);
+            this.MainPanel.Panel2.Controls.Add(this.label19);
             this.MainPanel.Panel2.Controls.Add(this.button20);
             this.MainPanel.Panel2.Controls.Add(this.button18);
             this.MainPanel.Panel2.Controls.Add(this.label16);
-            this.MainPanel.Panel2.Controls.Add(this.groupBox1);
-            this.MainPanel.Panel2.Controls.Add(this.label7);
-            this.MainPanel.Panel2.Controls.Add(this.splitContainer2);
             this.MainPanel.Panel2.Controls.Add(this.TypeSelector);
             this.MainPanel.Panel2.Controls.Add(this.label6);
             this.MainPanel.Panel2.Controls.Add(this.TypeInput);
-            this.MainPanel.Panel2.Controls.Add(this.button6);
-            this.MainPanel.Panel2.Controls.Add(this.button5);
-            this.MainPanel.Panel2.Controls.Add(this.label5);
-            this.MainPanel.Panel2.Controls.Add(this.RendererTextbox);
-            this.MainPanel.Panel2.Controls.Add(this.RendererList);
             this.MainPanel.Panel2.Controls.Add(this.button4);
             this.MainPanel.Panel2.Controls.Add(this.IconTextbox);
             this.MainPanel.Panel2.Controls.Add(this.label3);
             this.MainPanel.Panel2.Controls.Add(this.label2);
-            this.MainPanel.Panel2.Controls.Add(this.IDInput);
+            this.MainPanel.Panel2.Controls.Add(this.CIDInput);
             this.MainPanel.Panel2.Controls.Add(this.label1);
             this.MainPanel.Panel2.Controls.Add(this.NameTextbox);
+            this.MainPanel.Panel2.Controls.Add(this.SkinPanel);
+            this.MainPanel.Panel2.Controls.Add(this.SaddlePanel);
             this.MainPanel.Panel2.Enabled = false;
             this.MainPanel.Panel2MinSize = 200;
-            this.MainPanel.Size = new System.Drawing.Size(1124, 626);
-            this.MainPanel.SplitterDistance = 230;
+            this.MainPanel.Size = new System.Drawing.Size(1334, 707);
+            this.MainPanel.SplitterDistance = 345;
             this.MainPanel.TabIndex = 1;
             // 
-            // SkinsLayout
+            // button17
             // 
-            this.SkinsLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.button17.Location = new System.Drawing.Point(75, 3);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(82, 23);
+            this.button17.TabIndex = 8;
+            this.button17.Text = "Add Saddle";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.AddNewSaddle);
+            // 
+            // EquipmentLayout
+            // 
+            this.EquipmentLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SkinsLayout.AutoScroll = true;
-            this.SkinsLayout.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.SkinsLayout.Location = new System.Drawing.Point(3, 32);
-            this.SkinsLayout.Name = "SkinsLayout";
-            this.SkinsLayout.Size = new System.Drawing.Size(224, 591);
-            this.SkinsLayout.TabIndex = 7;
+            this.EquipmentLayout.AutoScroll = true;
+            this.EquipmentLayout.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.EquipmentLayout.Location = new System.Drawing.Point(3, 32);
+            this.EquipmentLayout.Name = "EquipmentLayout";
+            this.EquipmentLayout.Size = new System.Drawing.Size(339, 672);
+            this.EquipmentLayout.TabIndex = 7;
             // 
             // CopySkinButton
             // 
             this.CopySkinButton.Enabled = false;
-            this.CopySkinButton.Location = new System.Drawing.Point(126, 3);
+            this.CopySkinButton.Location = new System.Drawing.Point(236, 3);
             this.CopySkinButton.Name = "CopySkinButton";
             this.CopySkinButton.Size = new System.Drawing.Size(51, 23);
             this.CopySkinButton.TabIndex = 3;
             this.CopySkinButton.Text = "Copy";
             this.CopySkinButton.UseVisualStyleBackColor = true;
-            this.CopySkinButton.Click += new System.EventHandler(this.DuplicateSkin);
+            this.CopySkinButton.Click += new System.EventHandler(this.DuplicateEquipment);
             // 
             // RemoveSkinButton
             // 
             this.RemoveSkinButton.Enabled = false;
-            this.RemoveSkinButton.Location = new System.Drawing.Point(53, 3);
+            this.RemoveSkinButton.Location = new System.Drawing.Point(163, 3);
             this.RemoveSkinButton.Name = "RemoveSkinButton";
             this.RemoveSkinButton.Size = new System.Drawing.Size(67, 23);
             this.RemoveSkinButton.TabIndex = 2;
             this.RemoveSkinButton.Text = "Remove";
             this.RemoveSkinButton.UseVisualStyleBackColor = true;
-            this.RemoveSkinButton.Click += new System.EventHandler(this.RemoveSkin);
+            this.RemoveSkinButton.Click += new System.EventHandler(this.RemoveEquipment);
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(44, 23);
+            this.button1.Size = new System.Drawing.Size(66, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Add";
+            this.button1.Text = "Add Skin";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.AddNewSkin);
+            // 
+            // helpButton5
+            // 
+            this.helpButton5.Location = new System.Drawing.Point(438, 79);
+            this.helpButton5.Name = "helpButton5";
+            this.helpButton5.Size = new System.Drawing.Size(23, 23);
+            this.helpButton5.TabIndex = 33;
+            this.helpButton5.Tag = "This is the preset to use for some of the information. Using one of these is reco" +
+    "mmended";
+            this.helpButton5.Text = "?";
+            this.helpButton5.UseVisualStyleBackColor = true;
+            // 
+            // helpButton4
+            // 
+            this.helpButton4.Location = new System.Drawing.Point(188, 79);
+            this.helpButton4.Name = "helpButton4";
+            this.helpButton4.Size = new System.Drawing.Size(23, 23);
+            this.helpButton4.TabIndex = 32;
+            this.helpButton4.Tag = "This is the type ID of the dragon this can be equipped on. It is recommended to u" +
+    "se a Preset to set this";
+            this.helpButton4.Text = "?";
+            this.helpButton4.UseVisualStyleBackColor = true;
+            // 
+            // helpButton3
+            // 
+            this.helpButton3.Location = new System.Drawing.Point(392, 54);
+            this.helpButton3.Name = "helpButton3";
+            this.helpButton3.Size = new System.Drawing.Size(23, 23);
+            this.helpButton3.TabIndex = 31;
+            this.helpButton3.Tag = "This is the icon that\'ll appear in the customization menu";
+            this.helpButton3.Text = "?";
+            this.helpButton3.UseVisualStyleBackColor = true;
+            // 
+            // helpButton2
+            // 
+            this.helpButton2.Location = new System.Drawing.Point(292, 27);
+            this.helpButton2.Name = "helpButton2";
+            this.helpButton2.Size = new System.Drawing.Size(23, 23);
+            this.helpButton2.TabIndex = 30;
+            this.helpButton2.Tag = "This is a unique id of your new item. Make sure it isn\'t the same as any of your " +
+    "other items, even ones from other packs. This can any value from 0 to 99999";
+            this.helpButton2.Text = "?";
+            this.helpButton2.UseVisualStyleBackColor = true;
+            // 
+            // helpButton1
+            // 
+            this.helpButton1.Location = new System.Drawing.Point(145, 27);
+            this.helpButton1.Name = "helpButton1";
+            this.helpButton1.Size = new System.Drawing.Size(23, 23);
+            this.helpButton1.TabIndex = 29;
+            this.helpButton1.Tag = "This is a unique id of whoever made the pack. Ask on the discord what ids are in " +
+    "use. Can be any value from 21473 to -21473 except 0";
+            this.helpButton1.Text = "?";
+            this.helpButton1.UseVisualStyleBackColor = true;
+            // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(311, 3);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(23, 23);
+            this.button19.TabIndex = 28;
+            this.button19.Tag = "This is the name of the item that\'ll show in the customization menu";
+            this.button19.Text = "?";
+            this.button19.UseVisualStyleBackColor = true;
+            // 
+            // IIDInput
+            // 
+            this.IIDInput.Location = new System.Drawing.Point(224, 30);
+            this.IIDInput.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.IIDInput.Name = "IIDInput";
+            this.IIDInput.Size = new System.Drawing.Size(62, 20);
+            this.IIDInput.TabIndex = 27;
+            this.IIDInput.Value = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.IIDInput.ValueChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(174, 32);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(44, 13);
+            this.label19.TabIndex = 26;
+            this.label19.Text = "Item ID:";
             // 
             // button20
             // 
@@ -233,27 +367,223 @@ namespace SkinPackMaker
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(188, 84);
+            this.label16.Location = new System.Drawing.Point(217, 84);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(45, 13);
             this.label16.TabIndex = 21;
             this.label16.Text = "Presets:";
             // 
+            // TypeSelector
+            // 
+            this.TypeSelector.FormattingEnabled = true;
+            this.TypeSelector.Items.AddRange(new object[] {
+            "Custom"});
+            this.TypeSelector.Location = new System.Drawing.Point(268, 81);
+            this.TypeSelector.Name = "TypeSelector";
+            this.TypeSelector.Size = new System.Drawing.Size(164, 21);
+            this.TypeSelector.TabIndex = 13;
+            this.TypeSelector.SelectedIndexChanged += new System.EventHandler(this.SelectTypePreset);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 84);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Pet Type:";
+            // 
+            // TypeInput
+            // 
+            this.TypeInput.Location = new System.Drawing.Point(62, 82);
+            this.TypeInput.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.TypeInput.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
+            this.TypeInput.Name = "TypeInput";
+            this.TypeInput.Size = new System.Drawing.Size(120, 20);
+            this.TypeInput.TabIndex = 11;
+            this.TypeInput.ValueChanged += new System.EventHandler(this.PetTypeChanged);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(311, 54);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 6;
+            this.button4.Tag = "IconTextbox";
+            this.button4.Text = "Browse...";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.FileButton);
+            // 
+            // IconTextbox
+            // 
+            this.IconTextbox.Location = new System.Drawing.Point(40, 56);
+            this.IconTextbox.MaxLength = 10000;
+            this.IconTextbox.Name = "IconTextbox";
+            this.IconTextbox.Size = new System.Drawing.Size(265, 20);
+            this.IconTextbox.TabIndex = 5;
+            this.IconTextbox.Tag = "Select Image";
+            this.IconTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 59);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(31, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Icon:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 32);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Creator ID:";
+            // 
+            // CIDInput
+            // 
+            this.CIDInput.Location = new System.Drawing.Point(67, 30);
+            this.CIDInput.Maximum = new decimal(new int[] {
+            21473,
+            0,
+            0,
+            0});
+            this.CIDInput.Minimum = new decimal(new int[] {
+            21473,
+            0,
+            0,
+            -2147483648});
+            this.CIDInput.Name = "CIDInput";
+            this.CIDInput.Size = new System.Drawing.Size(72, 20);
+            this.CIDInput.TabIndex = 2;
+            this.CIDInput.Value = new decimal(new int[] {
+            21473,
+            0,
+            0,
+            0});
+            this.CIDInput.ValueChanged += new System.EventHandler(this.ControlChanged);
+            this.CIDInput.Validated += new System.EventHandler(this.ValidateCreatorID);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Display Name:";
+            // 
+            // NameTextbox
+            // 
+            this.NameTextbox.Location = new System.Drawing.Point(84, 4);
+            this.NameTextbox.MaxLength = 100;
+            this.NameTextbox.Name = "NameTextbox";
+            this.NameTextbox.Size = new System.Drawing.Size(221, 20);
+            this.NameTextbox.TabIndex = 0;
+            this.NameTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // SkinPanel
+            // 
+            this.SkinPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SkinPanel.Controls.Add(this.helpButton6);
+            this.SkinPanel.Controls.Add(this.label5);
+            this.SkinPanel.Controls.Add(this.RendererList);
+            this.SkinPanel.Controls.Add(this.RendererTextbox);
+            this.SkinPanel.Controls.Add(this.button5);
+            this.SkinPanel.Controls.Add(this.groupBox1);
+            this.SkinPanel.Controls.Add(this.button6);
+            this.SkinPanel.Controls.Add(this.label7);
+            this.SkinPanel.Controls.Add(this.splitContainer2);
+            this.SkinPanel.Location = new System.Drawing.Point(-1, 108);
+            this.SkinPanel.Name = "SkinPanel";
+            this.SkinPanel.Size = new System.Drawing.Size(986, 599);
+            this.SkinPanel.TabIndex = 24;
+            this.SkinPanel.Visible = false;
+            // 
+            // helpButton6
+            // 
+            this.helpButton6.Location = new System.Drawing.Point(395, 1);
+            this.helpButton6.Name = "helpButton6";
+            this.helpButton6.Size = new System.Drawing.Size(23, 23);
+            this.helpButton6.TabIndex = 34;
+            this.helpButton6.Tag = "This is the list of \"Renderers\" that this skin can affect. It is recommend to use" +
+    " one of the Presets for setting this";
+            this.helpButton6.Text = "?";
+            this.helpButton6.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Affected Renderers:";
+            // 
+            // RendererList
+            // 
+            this.RendererList.FormattingEnabled = true;
+            this.RendererList.Location = new System.Drawing.Point(112, 29);
+            this.RendererList.Name = "RendererList";
+            this.RendererList.Size = new System.Drawing.Size(194, 56);
+            this.RendererList.TabIndex = 2;
+            // 
+            // RendererTextbox
+            // 
+            this.RendererTextbox.Location = new System.Drawing.Point(112, 3);
+            this.RendererTextbox.MaxLength = 50;
+            this.RendererTextbox.Name = "RendererTextbox";
+            this.RendererTextbox.Size = new System.Drawing.Size(194, 20);
+            this.RendererTextbox.TabIndex = 7;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(312, 1);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 9;
+            this.button5.Text = "Add";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.AddRenderer);
+            // 
             // groupBox1
             // 
             this.groupBox1.AutoSize = true;
             this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox1.Controls.Add(this.helpButton7);
             this.groupBox1.Controls.Add(this.groupBox5);
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Location = new System.Drawing.Point(6, 196);
+            this.groupBox1.Location = new System.Drawing.Point(7, 91);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.groupBox1.Size = new System.Drawing.Size(870, 206);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "(Optional) Custom Mesh";
+            // 
+            // helpButton7
+            // 
+            this.helpButton7.Location = new System.Drawing.Point(130, 0);
+            this.helpButton7.Name = "helpButton7";
+            this.helpButton7.Size = new System.Drawing.Size(23, 23);
+            this.helpButton7.TabIndex = 35;
+            this.helpButton7.Tag = resources.GetString("helpButton7.Tag");
+            this.helpButton7.Text = "?";
+            this.helpButton7.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -513,10 +843,20 @@ namespace SkinPackMaker
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.FileButton);
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(312, 29);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 10;
+            this.button6.Text = "Remove";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.RemoveRenderer);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 405);
+            this.label7.Location = new System.Drawing.Point(4, 300);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(97, 13);
             this.label7.TabIndex = 15;
@@ -529,12 +869,13 @@ namespace SkinPackMaker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer2.Location = new System.Drawing.Point(6, 421);
+            this.splitContainer2.Location = new System.Drawing.Point(0, 316);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer2.Panel1.Controls.Add(this.helpButton8);
             this.splitContainer2.Panel1.Controls.Add(this.MaterialsLayout);
             this.splitContainer2.Panel1.Controls.Add(this.button13);
             this.splitContainer2.Panel1.Controls.Add(this.button12);
@@ -543,11 +884,22 @@ namespace SkinPackMaker
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer2.Panel2.Controls.Add(this.helpButton9);
             this.splitContainer2.Panel2.Controls.Add(this.HWPanel);
             this.splitContainer2.Panel2.Controls.Add(this.HWCheckbox);
-            this.splitContainer2.Size = new System.Drawing.Size(884, 205);
-            this.splitContainer2.SplitterDistance = 436;
+            this.splitContainer2.Size = new System.Drawing.Size(986, 283);
+            this.splitContainer2.SplitterDistance = 458;
             this.splitContainer2.TabIndex = 14;
+            // 
+            // helpButton8
+            // 
+            this.helpButton8.Location = new System.Drawing.Point(246, 3);
+            this.helpButton8.Name = "helpButton8";
+            this.helpButton8.Size = new System.Drawing.Size(23, 23);
+            this.helpButton8.TabIndex = 36;
+            this.helpButton8.Tag = "This controls the textures and other material properties";
+            this.helpButton8.Text = "?";
+            this.helpButton8.UseVisualStyleBackColor = true;
             // 
             // MaterialsLayout
             // 
@@ -559,7 +911,7 @@ namespace SkinPackMaker
             this.MaterialsLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.MaterialsLayout.Location = new System.Drawing.Point(3, 32);
             this.MaterialsLayout.Name = "MaterialsLayout";
-            this.MaterialsLayout.Size = new System.Drawing.Size(428, 168);
+            this.MaterialsLayout.Size = new System.Drawing.Size(450, 246);
             this.MaterialsLayout.TabIndex = 3;
             this.MaterialsLayout.WrapContents = false;
             // 
@@ -596,11 +948,22 @@ namespace SkinPackMaker
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.AddTextureButton);
             // 
+            // helpButton9
+            // 
+            this.helpButton9.Location = new System.Drawing.Point(153, -1);
+            this.helpButton9.Name = "helpButton9";
+            this.helpButton9.Size = new System.Drawing.Size(23, 23);
+            this.helpButton9.TabIndex = 37;
+            this.helpButton9.Tag = "If checked, this skin will stay equipped even when entering the hidden world";
+            this.helpButton9.Text = "?";
+            this.helpButton9.UseVisualStyleBackColor = true;
+            // 
             // HWPanel
             // 
             this.HWPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.HWPanel.Controls.Add(this.helpButton10);
             this.HWPanel.Controls.Add(this.HWMaterialsLayout);
             this.HWPanel.Controls.Add(this.button14);
             this.HWPanel.Controls.Add(this.button15);
@@ -608,8 +971,19 @@ namespace SkinPackMaker
             this.HWPanel.Enabled = false;
             this.HWPanel.Location = new System.Drawing.Point(3, 26);
             this.HWPanel.Name = "HWPanel";
-            this.HWPanel.Size = new System.Drawing.Size(436, 174);
+            this.HWPanel.Size = new System.Drawing.Size(516, 252);
             this.HWPanel.TabIndex = 1;
+            // 
+            // helpButton10
+            // 
+            this.helpButton10.Location = new System.Drawing.Point(246, 3);
+            this.helpButton10.Name = "helpButton10";
+            this.helpButton10.Size = new System.Drawing.Size(23, 23);
+            this.helpButton10.TabIndex = 37;
+            this.helpButton10.Tag = "This controls the textures and other material properties when in the hidden world" +
+    ". These are applied on top of the main material properties";
+            this.helpButton10.Text = "?";
+            this.helpButton10.UseVisualStyleBackColor = true;
             // 
             // HWMaterialsLayout
             // 
@@ -621,7 +995,7 @@ namespace SkinPackMaker
             this.HWMaterialsLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.HWMaterialsLayout.Location = new System.Drawing.Point(1, 32);
             this.HWMaterialsLayout.Name = "HWMaterialsLayout";
-            this.HWMaterialsLayout.Size = new System.Drawing.Size(435, 139);
+            this.HWMaterialsLayout.Size = new System.Drawing.Size(515, 220);
             this.HWMaterialsLayout.TabIndex = 6;
             this.HWMaterialsLayout.WrapContents = false;
             // 
@@ -669,168 +1043,135 @@ namespace SkinPackMaker
             this.HWCheckbox.UseVisualStyleBackColor = true;
             this.HWCheckbox.CheckedChanged += new System.EventHandler(this.ToggleHW);
             // 
-            // TypeSelector
+            // SaddlePanel
             // 
-            this.TypeSelector.FormattingEnabled = true;
-            this.TypeSelector.Items.AddRange(new object[] {
-            "Custom"});
-            this.TypeSelector.Location = new System.Drawing.Point(239, 81);
-            this.TypeSelector.Name = "TypeSelector";
-            this.TypeSelector.Size = new System.Drawing.Size(164, 21);
-            this.TypeSelector.TabIndex = 13;
-            this.TypeSelector.SelectedIndexChanged += new System.EventHandler(this.SelectTypePreset);
+            this.SaddlePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaddlePanel.Controls.Add(this.helpButton13);
+            this.SaddlePanel.Controls.Add(this.helpButton12);
+            this.SaddlePanel.Controls.Add(this.helpButton11);
+            this.SaddlePanel.Controls.Add(this.label18);
+            this.SaddlePanel.Controls.Add(this.SaddleTextureTextbox);
+            this.SaddlePanel.Controls.Add(this.button3);
+            this.SaddlePanel.Controls.Add(this.label4);
+            this.SaddlePanel.Controls.Add(this.SaddleAssetTextbox);
+            this.SaddlePanel.Controls.Add(this.SaddleBundleTextbox);
+            this.SaddlePanel.Controls.Add(this.label17);
+            this.SaddlePanel.Controls.Add(this.button2);
+            this.SaddlePanel.Location = new System.Drawing.Point(-1, 108);
+            this.SaddlePanel.Name = "SaddlePanel";
+            this.SaddlePanel.Size = new System.Drawing.Size(986, 599);
+            this.SaddlePanel.TabIndex = 25;
+            this.SaddlePanel.Visible = false;
             // 
-            // label6
+            // helpButton13
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 84);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Pet Type:";
+            this.helpButton13.Location = new System.Drawing.Point(424, 53);
+            this.helpButton13.Name = "helpButton13";
+            this.helpButton13.Size = new System.Drawing.Size(23, 23);
+            this.helpButton13.TabIndex = 36;
+            this.helpButton13.Tag = "This is the texture that the saddle will use";
+            this.helpButton13.Text = "?";
+            this.helpButton13.UseVisualStyleBackColor = true;
             // 
-            // TypeInput
+            // helpButton12
             // 
-            this.TypeInput.Location = new System.Drawing.Point(62, 82);
-            this.TypeInput.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.TypeInput.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.TypeInput.Name = "TypeInput";
-            this.TypeInput.Size = new System.Drawing.Size(120, 20);
-            this.TypeInput.TabIndex = 11;
-            this.TypeInput.ValueChanged += new System.EventHandler(this.PetTypeChanged);
+            this.helpButton12.Location = new System.Drawing.Point(343, 27);
+            this.helpButton12.Name = "helpButton12";
+            this.helpButton12.Size = new System.Drawing.Size(23, 23);
+            this.helpButton12.TabIndex = 35;
+            this.helpButton12.Tag = "This is the name of the mesh asset in the assetbundle provided";
+            this.helpButton12.Text = "?";
+            this.helpButton12.UseVisualStyleBackColor = true;
             // 
-            // button6
+            // helpButton11
             // 
-            this.button6.Location = new System.Drawing.Point(311, 134);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 10;
-            this.button6.Text = "Remove";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.RemoveRenderer);
+            this.helpButton11.Location = new System.Drawing.Point(424, 1);
+            this.helpButton11.Name = "helpButton11";
+            this.helpButton11.Size = new System.Drawing.Size(23, 23);
+            this.helpButton11.TabIndex = 34;
+            this.helpButton11.Tag = "This is the assetbundle containing the mesh the saddle will use";
+            this.helpButton11.Text = "?";
+            this.helpButton11.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // label18
             // 
-            this.button5.Location = new System.Drawing.Point(311, 106);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "Add";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.AddRenderer);
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(4, 58);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(46, 13);
+            this.label18.TabIndex = 29;
+            this.label18.Text = "Texture:";
             // 
-            // label5
+            // SaddleTextureTextbox
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 111);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Affected Renderers:";
+            this.SaddleTextureTextbox.Location = new System.Drawing.Point(56, 55);
+            this.SaddleTextureTextbox.MaxLength = 10000;
+            this.SaddleTextureTextbox.Name = "SaddleTextureTextbox";
+            this.SaddleTextureTextbox.Size = new System.Drawing.Size(281, 20);
+            this.SaddleTextureTextbox.TabIndex = 27;
+            this.SaddleTextureTextbox.Tag = "Select Bundle";
+            this.SaddleTextureTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
             // 
-            // RendererTextbox
+            // button3
             // 
-            this.RendererTextbox.Location = new System.Drawing.Point(111, 108);
-            this.RendererTextbox.MaxLength = 50;
-            this.RendererTextbox.Name = "RendererTextbox";
-            this.RendererTextbox.Size = new System.Drawing.Size(194, 20);
-            this.RendererTextbox.TabIndex = 7;
+            this.button3.Location = new System.Drawing.Point(343, 53);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 28;
+            this.button3.Tag = "SaddleTextureTextbox";
+            this.button3.Text = "Browse...";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.FileButton);
             // 
-            // RendererList
+            // label4
             // 
-            this.RendererList.FormattingEnabled = true;
-            this.RendererList.Location = new System.Drawing.Point(111, 134);
-            this.RendererList.Name = "RendererList";
-            this.RendererList.Size = new System.Drawing.Size(194, 56);
-            this.RendererList.TabIndex = 2;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(4, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(75, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Model Bundle:";
             // 
-            // button4
+            // SaddleAssetTextbox
             // 
-            this.button4.Location = new System.Drawing.Point(311, 54);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 6;
-            this.button4.Tag = "IconTextbox";
-            this.button4.Text = "Browse...";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.FileButton);
+            this.SaddleAssetTextbox.Location = new System.Drawing.Point(78, 29);
+            this.SaddleAssetTextbox.MaxLength = 10000;
+            this.SaddleAssetTextbox.Name = "SaddleAssetTextbox";
+            this.SaddleAssetTextbox.Size = new System.Drawing.Size(259, 20);
+            this.SaddleAssetTextbox.TabIndex = 26;
+            this.SaddleAssetTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
             // 
-            // IconTextbox
+            // SaddleBundleTextbox
             // 
-            this.IconTextbox.Location = new System.Drawing.Point(40, 56);
-            this.IconTextbox.MaxLength = 10000;
-            this.IconTextbox.Name = "IconTextbox";
-            this.IconTextbox.Size = new System.Drawing.Size(265, 20);
-            this.IconTextbox.TabIndex = 5;
-            this.IconTextbox.Tag = "Select Image";
-            this.IconTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
+            this.SaddleBundleTextbox.Location = new System.Drawing.Point(85, 3);
+            this.SaddleBundleTextbox.MaxLength = 10000;
+            this.SaddleBundleTextbox.Name = "SaddleBundleTextbox";
+            this.SaddleBundleTextbox.Size = new System.Drawing.Size(252, 20);
+            this.SaddleBundleTextbox.TabIndex = 22;
+            this.SaddleBundleTextbox.Tag = "Select Bundle";
+            this.SaddleBundleTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
             // 
-            // label3
+            // label17
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 59);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Icon:";
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(4, 32);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(68, 13);
+            this.label17.TabIndex = 25;
+            this.label17.Text = "Model Asset:";
             // 
-            // label2
+            // button2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 32);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Item ID:";
-            // 
-            // IDInput
-            // 
-            this.IDInput.Location = new System.Drawing.Point(53, 30);
-            this.IDInput.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.IDInput.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.IDInput.Name = "IDInput";
-            this.IDInput.Size = new System.Drawing.Size(120, 20);
-            this.IDInput.TabIndex = 2;
-            this.IDInput.Value = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.IDInput.ValueChanged += new System.EventHandler(this.ControlChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Display Name:";
-            // 
-            // NameTextbox
-            // 
-            this.NameTextbox.Location = new System.Drawing.Point(84, 4);
-            this.NameTextbox.MaxLength = 100;
-            this.NameTextbox.Name = "NameTextbox";
-            this.NameTextbox.Size = new System.Drawing.Size(221, 20);
-            this.NameTextbox.TabIndex = 0;
-            this.NameTextbox.TextChanged += new System.EventHandler(this.ControlChanged);
+            this.button2.Location = new System.Drawing.Point(343, 1);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 23;
+            this.button2.Tag = "SaddleBundleTextbox";
+            this.button2.Text = "Browse...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.FileButton);
             // 
             // menuStrip1
             // 
@@ -838,7 +1179,7 @@ namespace SkinPackMaker
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1124, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1334, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -905,18 +1246,23 @@ namespace SkinPackMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1124, 650);
+            this.ClientSize = new System.Drawing.Size(1334, 731);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "Skin Pack Maker - 1.1.1";
+            this.Text = "Skin Pack Maker - 1.2.0";
             this.MainPanel.Panel1.ResumeLayout(false);
             this.MainPanel.Panel2.ResumeLayout(false);
             this.MainPanel.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainPanel)).EndInit();
             this.MainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.IIDInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TypeInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CIDInput)).EndInit();
+            this.SkinPanel.ResumeLayout(false);
+            this.SkinPanel.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -933,8 +1279,8 @@ namespace SkinPackMaker
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.HWPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.TypeInput)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IDInput)).EndInit();
+            this.SaddlePanel.ResumeLayout(false);
+            this.SaddlePanel.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -943,76 +1289,104 @@ namespace SkinPackMaker
         }
 
         #endregion
-        private System.Windows.Forms.SplitContainer MainPanel;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.FlowLayoutPanel SkinsLayout;
-        private System.Windows.Forms.Button CopySkinButton;
-        private System.Windows.Forms.Button RemoveSkinButton;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.TextBox BabyBundleTextbox;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.ComboBox TypeSelector;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown TypeInput;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox RendererTextbox;
-        private System.Windows.Forms.ListBox RendererList;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox IconTextbox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown IDInput;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox NameTextbox;
-        private System.Windows.Forms.Button button20;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox TitanAssetTextbox;
-        private System.Windows.Forms.TextBox TitanBundleTextbox;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox TeenAssetTextbox;
-        private System.Windows.Forms.TextBox TeenBundleTextbox;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox AdultAssetTextbox;
-        private System.Windows.Forms.TextBox AdultBundleTextbox;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox BabyAssetTextbox;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.FlowLayoutPanel MaterialsLayout;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Panel HWPanel;
-        private System.Windows.Forms.FlowLayoutPanel HWMaterialsLayout;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.CheckBox HWCheckbox;
-        private System.Windows.Forms.OpenFileDialog OpenDialog;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem exportResourcePackToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog SaveDialog;
+
+        public System.Windows.Forms.Panel SaddlePanel;
+        public System.Windows.Forms.Label label18;
+        public System.Windows.Forms.TextBox SaddleTextureTextbox;
+        public System.Windows.Forms.Button button3;
+        public System.Windows.Forms.Label label4;
+        public System.Windows.Forms.TextBox SaddleAssetTextbox;
+        public System.Windows.Forms.TextBox SaddleBundleTextbox;
+        public System.Windows.Forms.Label label17;
+        public System.Windows.Forms.Button button2;
+        public System.Windows.Forms.Panel SkinPanel;
+        public System.Windows.Forms.SplitContainer MainPanel;
+        public System.Windows.Forms.MenuStrip menuStrip1;
+        public System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        public System.Windows.Forms.FlowLayoutPanel EquipmentLayout;
+        public System.Windows.Forms.Button CopySkinButton;
+        public System.Windows.Forms.Button RemoveSkinButton;
+        public System.Windows.Forms.Button button1;
+        public System.Windows.Forms.Button button7;
+        public System.Windows.Forms.TextBox BabyBundleTextbox;
+        public System.Windows.Forms.Label label7;
+        public System.Windows.Forms.SplitContainer splitContainer2;
+        public System.Windows.Forms.ComboBox TypeSelector;
+        public System.Windows.Forms.Label label6;
+        public System.Windows.Forms.NumericUpDown TypeInput;
+        public System.Windows.Forms.Button button6;
+        public System.Windows.Forms.Button button5;
+        public System.Windows.Forms.Label label5;
+        public System.Windows.Forms.TextBox RendererTextbox;
+        public System.Windows.Forms.ListBox RendererList;
+        public System.Windows.Forms.Button button4;
+        public System.Windows.Forms.TextBox IconTextbox;
+        public System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label label2;
+        public System.Windows.Forms.NumericUpDown CIDInput;
+        public System.Windows.Forms.Label label1;
+        public System.Windows.Forms.TextBox NameTextbox;
+        public System.Windows.Forms.Button button20;
+        public System.Windows.Forms.Button button18;
+        public System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.GroupBox groupBox5;
+        public System.Windows.Forms.Label label14;
+        public System.Windows.Forms.TextBox TitanAssetTextbox;
+        public System.Windows.Forms.TextBox TitanBundleTextbox;
+        public System.Windows.Forms.Label label15;
+        public System.Windows.Forms.Button button10;
+        public System.Windows.Forms.GroupBox groupBox4;
+        public System.Windows.Forms.Label label12;
+        public System.Windows.Forms.TextBox TeenAssetTextbox;
+        public System.Windows.Forms.TextBox TeenBundleTextbox;
+        public System.Windows.Forms.Label label13;
+        public System.Windows.Forms.Button button9;
+        public System.Windows.Forms.GroupBox groupBox3;
+        public System.Windows.Forms.Label label8;
+        public System.Windows.Forms.TextBox AdultAssetTextbox;
+        public System.Windows.Forms.TextBox AdultBundleTextbox;
+        public System.Windows.Forms.Label label11;
+        public System.Windows.Forms.Button button8;
+        public System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.Label label9;
+        public System.Windows.Forms.TextBox BabyAssetTextbox;
+        public System.Windows.Forms.Label label10;
+        public System.Windows.Forms.FlowLayoutPanel MaterialsLayout;
+        public System.Windows.Forms.Button button13;
+        public System.Windows.Forms.Button button12;
+        public System.Windows.Forms.Button button11;
+        public System.Windows.Forms.Panel HWPanel;
+        public System.Windows.Forms.FlowLayoutPanel HWMaterialsLayout;
+        public System.Windows.Forms.Button button14;
+        public System.Windows.Forms.Button button15;
+        public System.Windows.Forms.Button button16;
+        public System.Windows.Forms.CheckBox HWCheckbox;
+        public System.Windows.Forms.OpenFileDialog OpenDialog;
+        public System.Windows.Forms.Label label16;
+        public System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        public System.Windows.Forms.ToolStripMenuItem exportResourcePackToolStripMenuItem;
+        public System.Windows.Forms.SaveFileDialog SaveDialog;
+        public System.Windows.Forms.Button button17;
+        public System.Windows.Forms.NumericUpDown IIDInput;
+        public System.Windows.Forms.Label label19;
+        private SkinPackMaker.HelpButton button19;
+        private HelpButton helpButton5;
+        private HelpButton helpButton4;
+        private HelpButton helpButton3;
+        private HelpButton helpButton2;
+        private HelpButton helpButton1;
+        private HelpButton helpButton6;
+        private HelpButton helpButton7;
+        private HelpButton helpButton8;
+        private HelpButton helpButton9;
+        private HelpButton helpButton10;
+        private HelpButton helpButton13;
+        private HelpButton helpButton12;
+        private HelpButton helpButton11;
     }
 }
 

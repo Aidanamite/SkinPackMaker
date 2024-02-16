@@ -8,14 +8,28 @@ using System.Runtime.Serialization;
 namespace SimpleResourceReplacer
 {
     [Serializable]
-    public class CustomSkin
+    public abstract class CustomDragonEquipment
     {
         public string Name;
         public int ItemID;
         public string SkinIcon;
+        public int PetType;
+    }
+
+    [Serializable]
+    public class CustomSaddle : CustomDragonEquipment
+    {
+        [OptionalField]
+        [DataMember(EmitDefaultValue = false)]
+        public bool CustomMesh;
+        public string Mesh;
+        public string Texture;
+    }
+    [Serializable]
+    public class CustomSkin : CustomDragonEquipment
+    {
         public string[] TargetRenderers;
         public MaterialProperty[] MaterialData;
-        public int PetType;
         [OptionalField]
         [DataMember(EmitDefaultValue = false)]
         public MeshOverrides Mesh;

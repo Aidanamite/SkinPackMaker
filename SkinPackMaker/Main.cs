@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.IO.Compression;
+using System.Configuration;
 
 namespace SkinPackMaker
 {
@@ -25,11 +26,21 @@ namespace SkinPackMaker
         public bool UnsavedChanges = false;
         public bool UnsavedPackChanges = false;
         public string CurrentFile;
-        SkinControl LastSelected;
-        List<SkinControl> SkinControls = new List<SkinControl>();
-        List<MaterialProperty> MaterialProperties = new List<MaterialProperty>();
-        List<MaterialProperty> HWMaterialProperties = new List<MaterialProperty>();
-        public static DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(SkinData[]));
+        EquipmentControl LastSelected;
+        public List<EquipmentControl> EquipmentControls = new List<EquipmentControl>();
+        public List<MaterialProperty> MaterialProperties = new List<MaterialProperty>();
+        public List<MaterialProperty> HWMaterialProperties = new List<MaterialProperty>();
+        public static DataContractJsonSerializer equipmentSerializer = new DataContractJsonSerializer(typeof(EquipmentData[]),new[] { typeof(SkinData),typeof(SaddleData) });
+        public static DataContractJsonSerializer oldSkinSerializer = new DataContractJsonSerializer(typeof(SkinData[]));
+        public static int LastCreatorID
+        {
+            get => Settings.Instance.LastCreatorID;
+            set
+            {
+                Settings.Instance.LastCreatorID = value;
+                Settings.Save();
+            }
+        }
         public Main()
         {
             InitializeComponent();
@@ -49,6 +60,7 @@ namespace SkinPackMaker
                 if (!EnsureFileSaved())
                     y.Cancel = true;
             };
+            
         }
 
         public void ValidateKeyNumericTextbox(object sender, KeyPressEventArgs e)
@@ -77,44 +89,7 @@ namespace SkinPackMaker
                 return;
             UnsavedPackChanges = true;
             UnsavedChanges = false;
-            LastSelected.data.Name = NameTextbox.Text;
-            LastSelected.data.Id = (int)IDInput.Value;
-            LastSelected.data.Icon = IconTextbox.Text;
-            if (TypeSelector.SelectedIndex == 0)
-            {
-                LastSelected.data.TypePreset = null;
-                LastSelected.data.Type = (int)TypeInput.Value;
-                LastSelected.data.Renderers.Clear();
-                foreach (var i in RendererList.Items)
-                    LastSelected.data.Renderers.Add(i.ToString());
-            }
-            else
-            {
-                LastSelected.data.TypePreset = TypeSelector.Items[TypeSelector.SelectedIndex].ToString();
-                LastSelected.data.Type = 0;
-                LastSelected.data.Renderers.Clear();
-            }
-            LastSelected.data.BabyMesh = string.IsNullOrWhiteSpace(BabyBundleTextbox.Text) ? null : ((string, string)?)(BabyBundleTextbox.Text, BabyAssetTextbox.Text);
-            LastSelected.data.TeenMesh = string.IsNullOrWhiteSpace(TeenBundleTextbox.Text) ? null : ((string, string)?)(TeenBundleTextbox.Text, TeenAssetTextbox.Text);
-            LastSelected.data.AdultMesh = string.IsNullOrWhiteSpace(AdultBundleTextbox.Text) ? null : ((string, string)?)(AdultBundleTextbox.Text, AdultAssetTextbox.Text);
-            LastSelected.data.TitanMesh = string.IsNullOrWhiteSpace(TitanBundleTextbox.Text) ? null : ((string, string)?)(TitanBundleTextbox.Text, TitanAssetTextbox.Text);
-            LastSelected.data.Materials.Clear();
-            foreach (var p in MaterialProperties)
-            {
-                LastSelected.data.Materials.Add(p.data);
-                p.Save();
-            }
-            if (HWCheckbox.Checked)
-            {
-                LastSelected.data.HWMaterials = new List<MaterialData>();
-                foreach (var p in HWMaterialProperties)
-                {
-                    LastSelected.data.HWMaterials.Add(p.data);
-                    p.Save();
-                }
-            }
-            else
-                LastSelected.data.HWMaterials = null;
+            LastSelected.data.Save(this);
             LastSelected.RefreshControls();
         }
 
@@ -122,7 +97,7 @@ namespace SkinPackMaker
         {
             if (!UnsavedChanges)
                 return true;
-            var r = MessageBox.Show(this, "There are unsaved changes to this skin, would you like to save them before editing a different skin?", "Unsaved Changes", MessageBoxButtons.YesNoCancel);
+            var r = MessageBox.Show(this, "There are unsaved changes to this skin, would you like to save them now? Unsaved changes will be lost", "Unsaved Changes", MessageBoxButtons.YesNoCancel);
             if (r == DialogResult.Cancel)
                 return false;
             if (r == DialogResult.Yes)
@@ -130,16 +105,19 @@ namespace SkinPackMaker
             return true;
         }
 
-        public void TrySelectSkin(SkinControl skin)
+        public void TrySelectEquipment(EquipmentControl equipment)
         {
             if (EnsureSaved())
-                SelectSkin(skin);
+                SelectEquipment(equipment);
         }
 
-        void SelectSkin(SkinControl skin)
+        void SelectEquipment(EquipmentControl equipment)
         {
-            LastSelected = skin;
-            if (skin == null)
+            LastSelected = equipment;
+            SuspendLayout();
+            SkinPanel.Visible = false;
+            SaddlePanel.Visible = false;
+            if (equipment == null)
             {
                 MainPanel.Panel2.Enabled = false;
                 RemoveSkinButton.Enabled = false;
@@ -149,45 +127,9 @@ namespace SkinPackMaker
             MainPanel.Panel2.Enabled = true;
             RemoveSkinButton.Enabled = true;
             CopySkinButton.Enabled = true;
-            NameTextbox.Text = LastSelected.data.Name;
-            IDInput.Value = LastSelected.data.Id;
-            IconTextbox.Text = LastSelected.data.Icon;
-            if (LastSelected.data.TypePreset == null)
-            {
-                TypeSelector.SelectedIndex = 0;
-                TypeInput.Value = LastSelected.data.Type;
-                RendererList.Items.Clear();
-                foreach (var i in LastSelected.data.Renderers)
-                    RendererList.Items.Add(i);
-            }
-            else
-                TypeSelector.SetSelected(LastSelected.data.TypePreset);
-            (BabyBundleTextbox.Text, BabyAssetTextbox.Text) = LastSelected.data.BabyMesh ?? ("", "");
-            (TeenBundleTextbox.Text, TeenAssetTextbox.Text) = LastSelected.data.TeenMesh ?? ("", "");
-            (AdultBundleTextbox.Text, AdultAssetTextbox.Text) = LastSelected.data.AdultMesh ?? ("", "");
-            (TitanBundleTextbox.Text, TitanAssetTextbox.Text) = LastSelected.data.TitanMesh ?? ("", "");
-            while (MaterialProperties.Count > 0)
-            {
-                MaterialProperties[0].Dispose();
-                MaterialProperties.RemoveAt(0);
-            }
-            foreach (var m in LastSelected.data.Materials)
-                MaterialProperties.Add(
-                    Constants.TextureProperties.ContainsKey(m.Property) ? new TextureMaterialProperty(this,MaterialsLayout,m)
-                    : Constants.ColorProperties.ContainsKey(m.Property) ? (MaterialProperty)new ColorMaterialProperty(this, MaterialsLayout, m)
-                    : new FloatMaterialProperty(this, MaterialsLayout, m));
-            while (HWMaterialProperties.Count > 0)
-            {
-                HWMaterialProperties[0].Dispose();
-                HWMaterialProperties.RemoveAt(0);
-            }
-            if (HWCheckbox.Checked = LastSelected.data.HWMaterials != null)
-                foreach (var m in LastSelected.data.HWMaterials)
-                    HWMaterialProperties.Add(
-                        Constants.TextureProperties.ContainsKey(m.Property) ? new TextureMaterialProperty(this, HWMaterialsLayout, m)
-                        : Constants.ColorProperties.ContainsKey(m.Property) ? (MaterialProperty)new ColorMaterialProperty(this, HWMaterialsLayout, m)
-                        : new FloatMaterialProperty(this, HWMaterialsLayout, m));
+            equipment.data.Select(this);
         end:
+            ResumeLayout();
             UnsavedChanges = false;
         }
 
@@ -271,34 +213,40 @@ namespace SkinPackMaker
 
         void AddTextureButton(object sender, EventArgs e)
         {
+            SuspendLayout();
             if (sender is Control control)
                 (control.Tag as string == "HW" ? HWMaterialProperties : MaterialProperties)
                     .Add(new TextureMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
                         new MaterialData() { Property = Constants.TextureProperties.Keys.First() }));
+            ResumeLayout();
             ControlChanged(sender, e);
         }
 
         void AddColorButton(object sender, EventArgs e)
         {
+            SuspendLayout();
             if (sender is Control control)
                 (control.Tag as string == "HW" ? HWMaterialProperties : MaterialProperties)
                     .Add(new ColorMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
                         new MaterialData() { Property = Constants.ColorProperties.Keys.First(), Value = Constants.ColorProperties.Values.First().Item2.ToHex() }));
+            ResumeLayout();
             ControlChanged(sender, e);
         }
 
         void AddNumberButton(object sender, EventArgs e)
         {
+            SuspendLayout();
             if (sender is Control control)
                 (control.Tag as string == "HW" ? HWMaterialProperties : MaterialProperties)
                     .Add(new FloatMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
                         new MaterialData() { Property = Constants.FloatProperties.Keys.First(), Value = Constants.FloatProperties.Values.First().Item2.ToString() }));
+            ResumeLayout();
             ControlChanged(sender, e);
         }
 
@@ -315,38 +263,55 @@ namespace SkinPackMaker
             if (EnsureSaved())
             {
                 UnsavedPackChanges = true;
-                var n = new SkinControl(this,SkinsLayout,new SkinData());
-                SkinControls.Add(n);
-                SelectSkin(n);
+                SuspendLayout();
+                var n = new EquipmentControl(this,EquipmentLayout,new SkinData());
+                ResumeLayout();
+                EquipmentControls.Add(n);
+                SelectEquipment(n);
             }
         }
 
-        void RemoveSkin(object sender, EventArgs e)
-        {
-            if (MessageBox.Show(this,"Are you sure you want to remove this skin? This cannot be undone.","Confirm Remove",MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                UnsavedPackChanges = true;
-                SkinControls.Remove(LastSelected);
-                LastSelected.Dispose();
-                SelectSkin(SkinControls.FirstOrDefault());
-            }
-        }
-
-        void DuplicateSkin(object sender, EventArgs e)
+        void AddNewSaddle(object sender, EventArgs e)
         {
             if (EnsureSaved())
             {
                 UnsavedPackChanges = true;
-                var n = new SkinControl(this, SkinsLayout, LastSelected.data.DeepMemberwiseClone());
-                SkinControls.Add(n);
-                SelectSkin(n);
+                SuspendLayout();
+                var n = new EquipmentControl(this, EquipmentLayout, new SaddleData());
+                ResumeLayout();
+                EquipmentControls.Add(n);
+                SelectEquipment(n);
+            }
+        }
+
+        void RemoveEquipment(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this,"Are you sure you want to remove this skin? This cannot be undone.","Confirm Remove",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                UnsavedPackChanges = true;
+                EquipmentControls.Remove(LastSelected);
+                LastSelected.Dispose();
+                SelectEquipment(EquipmentControls.FirstOrDefault());
+            }
+        }
+
+        void DuplicateEquipment(object sender, EventArgs e)
+        {
+            if (EnsureSaved())
+            {
+                UnsavedPackChanges = true;
+                SuspendLayout();
+                var n = new EquipmentControl(this, EquipmentLayout, LastSelected.data.DeepMemberwiseClone());
+                ResumeLayout();
+                EquipmentControls.Add(n);
+                SelectEquipment(n);
             }
         }
 
         void DiscardChanges(object sender, EventArgs e)
         {
             if (MessageBox.Show(this, "Are you sure you want to discard changes to this skin? This cannot be undone.", "Confirm Discard", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                SelectSkin(LastSelected);
+                SelectEquipment(LastSelected);
         }
 
         public bool EnsureFileSaved()
@@ -377,7 +342,7 @@ namespace SkinPackMaker
             try
             {
                 using (var stream = File.Open(filename,FileMode.Create,FileAccess.Write,FileShare.None))
-                    serializer.WriteObject(stream, SkinControls.Select(s => s.data).ToArray());
+                    equipmentSerializer.WriteObject(stream, EquipmentControls.Select(s => s.data).ToArray());
                 UnsavedPackChanges = false;
                 CurrentFile = filename;
                 return true;
@@ -398,17 +363,19 @@ namespace SkinPackMaker
             }
         }
 
-        void LoadDatas(SkinData[] skins)
+        void LoadDatas(EquipmentData[] skins)
         {
-            while (SkinControls.Count > 0)
+            SuspendLayout();
+            while (EquipmentControls.Count > 0)
             {
-                SkinControls[0].Dispose();
-                SkinControls.RemoveAt(0);
+                EquipmentControls[0].Dispose();
+                EquipmentControls.RemoveAt(0);
             }
             if (skins?.Length > 0)
                 foreach (var s in skins)
-                    SkinControls.Add(new SkinControl(this, SkinsLayout, s));
-            SelectSkin(SkinControls.FirstOrDefault());
+                    EquipmentControls.Add(new EquipmentControl(this, EquipmentLayout, s));
+            SelectEquipment(EquipmentControls.FirstOrDefault());
+            ResumeLayout();
             UnsavedPackChanges = false;
         }
 
@@ -427,10 +394,18 @@ namespace SkinPackMaker
             try
             {
                 using (var stream = File.OpenRead(filename))
-                    LoadDatas((SkinData[])serializer.ReadObject(stream));
+                    LoadDatas((EquipmentData[])equipmentSerializer.ReadObject(stream));
                 CurrentFile = filename;
             } catch (Exception e)
             {
+                try
+                {
+                    using (var stream = File.OpenRead(filename))
+                        LoadDatas((SkinData[])oldSkinSerializer.ReadObject(stream));
+                    CurrentFile = filename;
+                    return;
+                }
+                catch { }
                 MessageBox.Show(this, "An error occured while loading the file\n"+e, "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -441,7 +416,7 @@ namespace SkinPackMaker
 
         void ExportClicked(object sender, EventArgs e)
         {
-            if (SkinControls.Count == 0)
+            if (EquipmentControls.Count == 0)
             {
                 MessageBox.Show(this, "There are no skins to export...");
                 return;
@@ -488,22 +463,30 @@ namespace SkinPackMaker
                         packagedFiles[lFile] = ($"{ind}-{Path.GetFileName(file)}{(lFile.EndsWith(".bundle") ? "" : ".bundle")}", File.ReadAllBytes(file));
                     d[asset] = $"RS_SHARED/{tick}-{simpleName}/{ind++}-{asset}";
                 }
-                foreach (var s in SkinControls)
+                foreach (var s in EquipmentControls)
                 {
                     TryAddImage(s.data.Icon,true);
-                    if (s.data.BabyMesh != null)
-                        TryAddBundle(s.data.BabyMesh.Value.Item1, s.data.BabyMesh.Value.Item2);
-                    if (s.data.TeenMesh != null)
-                        TryAddBundle(s.data.TeenMesh.Value.Item1, s.data.TeenMesh.Value.Item2);
-                    if (s.data.AdultMesh != null)
-                        TryAddBundle(s.data.AdultMesh.Value.Item1, s.data.AdultMesh.Value.Item2);
-                    if (s.data.TitanMesh != null)
-                        TryAddBundle(s.data.TitanMesh.Value.Item1, s.data.TitanMesh.Value.Item2);
-                    foreach (var ms in new[] { s.data.Materials, s.data.HWMaterials })
-                        if (ms != null)
-                            foreach (var m in ms)
-                                if (Constants.TextureProperties.ContainsKey(m.Property))
-                                    TryAddImage(m.Value);
+                    if (s.data is SkinData skinD)
+                    {
+                        if (skinD.BabyMesh != null)
+                            TryAddBundle(skinD.BabyMesh.Value.Item1, skinD.BabyMesh.Value.Item2);
+                        if (skinD.TeenMesh != null)
+                            TryAddBundle(skinD.TeenMesh.Value.Item1, skinD.TeenMesh.Value.Item2);
+                        if (skinD.AdultMesh != null)
+                            TryAddBundle(skinD.AdultMesh.Value.Item1, skinD.AdultMesh.Value.Item2);
+                        if (skinD.TitanMesh != null)
+                            TryAddBundle(skinD.TitanMesh.Value.Item1, skinD.TitanMesh.Value.Item2);
+                        foreach (var ms in new[] { skinD.Materials, skinD.HWMaterials })
+                            if (ms != null)
+                                foreach (var m in ms)
+                                    if (Constants.TextureProperties.ContainsKey(m.Property))
+                                        TryAddImage(m.Value);
+                    }
+                    else if (s.data is SaddleData saddleD)
+                    {
+                        TryAddBundle(saddleD.Mesh.Item1,saddleD.Mesh.Item2);
+                        TryAddImage(saddleD.Texture,true);
+                    }
                 }
                 foreach (var p in allImages)
                 {
@@ -529,47 +512,59 @@ namespace SkinPackMaker
                     }
                     packagedFiles[b.Key + ".meta"] = (packagedFiles[b.Key].Item1 + ".meta", Encoding.UTF8.GetBytes(str));
                 }
-                foreach (var s in SkinControls)
+                foreach (var s in EquipmentControls)
                 {
-                    var data = new SimpleResourceReplacer.CustomSkin();
+                    var data = s.data is SkinData ? (SimpleResourceReplacer.CustomDragonEquipment)new SimpleResourceReplacer.CustomSkin() : s.data is SaddleData ? new SimpleResourceReplacer.CustomSaddle() : null;
                     data.Name = s.data.Name;
                     data.ItemID = s.data.Id;
                     data.SkinIcon = imagePathsSpecial.TryGetValue(s.data.Icon.ToLowerInvariant(), out var v) ? v : s.data.Icon;
                     
-                    IList<string> renderers = s.data.Renderers;
                     var type = s.data.Type;
                     if (s.data.TypePreset != null)
-                        (data.PetType, data.TargetRenderers) = Constants.TypePresets[s.data.TypePreset];
+                        data.PetType = Constants.TypePresets[s.data.TypePreset].Type;
                     else
-                    {
                         data.PetType = s.data.Type;
-                        data.TargetRenderers = s.data.Renderers.ToArray();
-                    }
-                    if (s.data.BabyMesh != null || s.data.TeenMesh != null || s.data.AdultMesh != null || s.data.TitanMesh != null)
+                    var ext = "something";
+                    if (s.data is SkinData skinD && data is SimpleResourceReplacer.CustomSkin skinC)
                     {
-                        data.Mesh = new SimpleResourceReplacer.MeshOverrides();
-                        if (s.data.BabyMesh != null)
-                            data.Mesh.Baby = assetPaths.TryGetValue(s.data.BabyMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[s.data.BabyMesh.Value.Item2] : $"{s.data.BabyMesh.Value.Item1}/{s.data.BabyMesh.Value.Item2}";
-                        if (s.data.TeenMesh != null)
-                            data.Mesh.Baby = assetPaths.TryGetValue(s.data.TeenMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[s.data.TeenMesh.Value.Item2] : $"{s.data.TeenMesh.Value.Item1}/{s.data.TeenMesh.Value.Item2}";
-                        if (s.data.AdultMesh != null)
-                            data.Mesh.Adult = assetPaths.TryGetValue(s.data.AdultMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[s.data.AdultMesh.Value.Item2] : $"{s.data.AdultMesh.Value.Item1}/{s.data.AdultMesh.Value.Item2}";
-                        if (s.data.TitanMesh != null)
-                            data.Mesh.Titan = assetPaths.TryGetValue(s.data.TitanMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[s.data.TitanMesh.Value.Item2] : $"{s.data.TitanMesh.Value.Item1}/{s.data.TitanMesh.Value.Item2}";
-                    }
-                    data.MaterialData = s.data.Materials.Select(x => new SimpleResourceReplacer.MaterialProperty() {
-                        Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
-                        Property = x.RealProperty,
-                        Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
-                    }).ToArray();
-                    if (s.data.HWMaterials != null)
-                        data.HWMaterialData = s.data.HWMaterials.Select(x => new SimpleResourceReplacer.MaterialProperty()
+                        ext = "skin";
+                        if (s.data.TypePreset != null)
+                            skinC.TargetRenderers = Constants.TypePresets[s.data.TypePreset].Renderers;
+                        else
+                            skinC.TargetRenderers = skinD.Renderers.ToArray();
+                        if (skinD.BabyMesh != null || skinD.TeenMesh != null || skinD.AdultMesh != null || skinD.TitanMesh != null)
+                        {
+                            skinC.Mesh = new SimpleResourceReplacer.MeshOverrides();
+                            if (skinD.BabyMesh != null)
+                                skinC.Mesh.Baby = assetPaths.TryGetValue(skinD.BabyMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[skinD.BabyMesh.Value.Item2] : $"{skinD.BabyMesh.Value.Item1}/{skinD.BabyMesh.Value.Item2}";
+                            if (skinD.TeenMesh != null)
+                                skinC.Mesh.Baby = assetPaths.TryGetValue(skinD.TeenMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[skinD.TeenMesh.Value.Item2] : $"{skinD.TeenMesh.Value.Item1}/{skinD.TeenMesh.Value.Item2}";
+                            if (skinD.AdultMesh != null)
+                                skinC.Mesh.Adult = assetPaths.TryGetValue(skinD.AdultMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[skinD.AdultMesh.Value.Item2] : $"{skinD.AdultMesh.Value.Item1}/{skinD.AdultMesh.Value.Item2}";
+                            if (skinD.TitanMesh != null)
+                                skinC.Mesh.Titan = assetPaths.TryGetValue(skinD.TitanMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[skinD.TitanMesh.Value.Item2] : $"{skinD.TitanMesh.Value.Item1}/{skinD.TitanMesh.Value.Item2}";
+                        }
+                        skinC.MaterialData = skinD.Materials.Select(x => new SimpleResourceReplacer.MaterialProperty()
                         {
                             Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
                             Property = x.RealProperty,
                             Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
                         }).ToArray();
-                    packagedFiles[$"{ind}-{s.data.Name}.skin"] = ($"{ind++}-{s.data.Name}.skin", data.JsonSerialize());
+                        if (skinD.HWMaterials != null)
+                            skinC.HWMaterialData = skinD.HWMaterials.Select(x => new SimpleResourceReplacer.MaterialProperty()
+                            {
+                                Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
+                                Property = x.RealProperty,
+                                Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
+                            }).ToArray();
+                    }
+                    else if (s.data is SaddleData saddleD && data is SimpleResourceReplacer.CustomSaddle saddleC)
+                    {
+                        ext = "saddle";
+                        saddleC.Mesh = (saddleC.CustomMesh = assetPaths.TryGetValue(saddleD.Mesh.Item1.ToLowerInvariant(), out var d)) ? d[saddleD.Mesh.Item2] : $"{saddleD.Mesh.Item1}/{saddleD.Mesh.Item2}";
+                        saddleC.Texture = imagePathsSpecial.TryGetValue(saddleD.Texture.ToLowerInvariant(), out v) ? v : saddleD.Texture;
+                    }
+                    packagedFiles[$"{ind}-{s.data.Name}.{ext}"] = ($"{ind++}-{s.data.Name}.{ext}", data.JsonSerialize());
                 }
                 using (var file = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
                 using (var zip = new ZipArchive(file,ZipArchiveMode.Create,true,Encoding.UTF8))
@@ -585,33 +580,163 @@ namespace SkinPackMaker
                 MessageBox.Show(this, "An error occured while saving the file\n" + err, "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        void ValidateCreatorID(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown num && (int)num.Value == 0)
+                num.Value = 1;
+        }
     }
 
     [Serializable]
-    public class SkinData
+    public abstract class EquipmentData
     {
         public string Name = "";
-        public int Id;
+        public int Id = ( Main.LastCreatorID,0).JoinIDs();
         public string Icon = "";
-        public List<string> Renderers = new List<string>();
         public int Type;
         public string TypePreset;
+        public virtual void Save(Main main)
+        {
+            Name = main.NameTextbox.Text;
+            Id = ((int)main.CIDInput.Value, (int)main.IIDInput.Value).JoinIDs();
+            Main.LastCreatorID = (int)main.CIDInput.Value;
+            Icon = main.IconTextbox.Text;
+            if (main.TypeSelector.SelectedIndex == 0)
+            {
+                TypePreset = null;
+                Type = (int)main.TypeInput.Value;
+            }
+            else
+            {
+                TypePreset = main.TypeSelector.Items[main.TypeSelector.SelectedIndex].ToString();
+                Type = 0;
+            }
+        }
+        public virtual void Select(Main main)
+        {
+            main.NameTextbox.Text = Name;
+            (main.CIDInput.Value, main.IIDInput.Value) = Id.SplitIDs();
+            main.IconTextbox.Text = Icon;
+            if (TypePreset == null)
+            {
+                main.TypeSelector.SelectedIndex = 0;
+                main.TypeInput.Value = Type;
+            }
+            else
+                main.TypeSelector.SetSelected(TypePreset);
+        }
+    }
+
+    [Serializable]
+    public class SaddleData : EquipmentData
+    {
+        public (string, string) Mesh;
+        public string Texture;
+        public override void Save(Main main)
+        {
+            base.Save(main);
+            Mesh = (main.SaddleBundleTextbox.Text, main.SaddleAssetTextbox.Text);
+            Texture = main.SaddleTextureTextbox.Text;
+        }
+        public override void Select(Main main)
+        {
+            base.Select(main);
+            main.SaddlePanel.Visible = true;
+            (main.SaddleBundleTextbox.Text, main.SaddleAssetTextbox.Text) = Mesh;
+            main.SaddleTextureTextbox.Text = Texture;
+        }
+    }
+
+    [Serializable]
+    public class SkinData : EquipmentData
+    {
+        public List<string> Renderers = new List<string>();
         public (string, string)? BabyMesh;
         public (string, string)? TeenMesh;
         public (string, string)? AdultMesh;
         public (string, string)? TitanMesh;
         public List<MaterialData> Materials = new List<MaterialData>();
         public List<MaterialData> HWMaterials;
+        public override void Save(Main main)
+        {
+            base.Save(main);
+            if (main.TypeSelector.SelectedIndex == 0)
+            {
+                Renderers.Clear();
+                foreach (var i in main.RendererList.Items)
+                    Renderers.Add(i.ToString());
+            }
+            else
+                Renderers.Clear();
+            BabyMesh = string.IsNullOrWhiteSpace(main.BabyBundleTextbox.Text) ? null : ((string, string)?)(main.BabyBundleTextbox.Text, main.BabyAssetTextbox.Text);
+            TeenMesh = string.IsNullOrWhiteSpace(main.TeenBundleTextbox.Text) ? null : ((string, string)?)(main.TeenBundleTextbox.Text, main.TeenAssetTextbox.Text);
+            AdultMesh = string.IsNullOrWhiteSpace(main.AdultBundleTextbox.Text) ? null : ((string, string)?)(main.AdultBundleTextbox.Text, main.AdultAssetTextbox.Text);
+            TitanMesh = string.IsNullOrWhiteSpace(main.TitanBundleTextbox.Text) ? null : ((string, string)?)(main.TitanBundleTextbox.Text, main.TitanAssetTextbox.Text);
+            Materials.Clear();
+            foreach (var p in main.MaterialProperties)
+            {
+                Materials.Add(p.data);
+                p.Save();
+            }
+            if (main.HWCheckbox.Checked)
+            {
+                HWMaterials = new List<MaterialData>();
+                foreach (var p in main.HWMaterialProperties)
+                {
+                    HWMaterials.Add(p.data);
+                    p.Save();
+                }
+            }
+            else
+                HWMaterials = null;
+        }
+        public override void Select(Main main)
+        {
+            base.Select(main);
+            main.SkinPanel.Visible = true;
+            if (TypePreset == null)
+            {
+                main.RendererList.Items.Clear();
+                foreach (var i in Renderers)
+                    main.RendererList.Items.Add(i);
+            }
+            (main.BabyBundleTextbox.Text, main.BabyAssetTextbox.Text) = BabyMesh ?? ("", "");
+            (main.TeenBundleTextbox.Text, main.TeenAssetTextbox.Text) = TeenMesh ?? ("", "");
+            (main.AdultBundleTextbox.Text, main.AdultAssetTextbox.Text) = AdultMesh ?? ("", "");
+            (main.TitanBundleTextbox.Text, main.TitanAssetTextbox.Text) = TitanMesh ?? ("", "");
+            while (main.MaterialProperties.Count > 0)
+            {
+                main.MaterialProperties[0].Dispose();
+                main.MaterialProperties.RemoveAt(0);
+            }
+            foreach (var m in Materials)
+                main.MaterialProperties.Add(
+                    Constants.TextureProperties.ContainsKey(m.Property) ? new TextureMaterialProperty(main, main.MaterialsLayout, m)
+                    : Constants.ColorProperties.ContainsKey(m.Property) ? (MaterialProperty)new ColorMaterialProperty(main, main.MaterialsLayout, m)
+                    : new FloatMaterialProperty(main, main.MaterialsLayout, m));
+            while (main.HWMaterialProperties.Count > 0)
+            {
+                main.HWMaterialProperties[0].Dispose();
+                main.HWMaterialProperties.RemoveAt(0);
+            }
+            if (main.HWCheckbox.Checked = HWMaterials != null)
+                foreach (var m in HWMaterials)
+                    main.HWMaterialProperties.Add(
+                        Constants.TextureProperties.ContainsKey(m.Property) ? new TextureMaterialProperty(main, main.HWMaterialsLayout, m)
+                        : Constants.ColorProperties.ContainsKey(m.Property) ? (MaterialProperty)new ColorMaterialProperty(main, main.HWMaterialsLayout, m)
+                        : new FloatMaterialProperty(main, main.HWMaterialsLayout, m));
+        }
     }
 
-    public class SkinControl : Panel
+    public class EquipmentControl : Panel
     {
         public PictureBox img;
         public Label lbl;
-        public readonly SkinData data;
-        public SkinControl(Main main, Control parent, SkinData skin)
+        public readonly EquipmentData data;
+        public EquipmentControl(Main main, Control parent, EquipmentData equipment)
         {
-            data = skin;
+            data = equipment;
             Parent = parent;
             img = new PictureBox();
             img.Parent = this;
@@ -621,21 +746,21 @@ namespace SkinPackMaker
             Anchor = AnchorStyles.Top;
             AutoSize = true;
             BackColor = SystemColors.Control;
-            Name = "SkinButton";
-            Click += (x,y) => main.TrySelectSkin(this);
-                
+            Name = "EquipmentButton";
+            Click += (x, y) => main.TrySelectEquipment(this);
+
             img.Location = new Point(3, 3);
             img.Size = new Size(100, 100);
-            img.Name = "SkinIcon";
+            img.Name = "EquipmentIcon";
             img.SizeMode = PictureBoxSizeMode.Zoom;
-            img.Click += (x, y) => main.TrySelectSkin(this);
+            img.Click += (x, y) => main.TrySelectEquipment(this);
 
             lbl.AutoSize = true;
             lbl.Location = new Point(3, 106);
             lbl.Margin = new Padding(3, 0, 3, 3);
             lbl.MinimumSize = lbl.MaximumSize = new Size(100, 0);
-            lbl.Name = "SkinName";
-            lbl.Click += (x, y) => main.TrySelectSkin(this);
+            lbl.Name = "EquipmentName";
+            lbl.Click += (x, y) => main.TrySelectEquipment(this);
 
             RefreshControls();
         }
@@ -871,6 +996,15 @@ namespace SkinPackMaker
         {
             base.Save();
             data.Value = Input.Text;
+        }
+    }
+
+    public class HelpButton : Button
+    {
+        protected override void OnClick(EventArgs e)
+        {
+            MessageBox.Show(FindForm(), Tag.ToString(), "Help", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            base.OnClick(e);
         }
     }
 
@@ -1138,6 +1272,14 @@ namespace SkinPackMaker
             }
         }
         public static byte[] JsonSerialize(this object graph, Encoding encoding = null) => new DataContractJsonSerializer(graph.GetType()).Serialize(graph,encoding);
+        public static int JoinIDs(this (int creator, int item) ids) => ids.creator * 10000 + ids.item * (ids.creator < 0 ? -1 : 1);
+        public static (int creator, int item) SplitIDs(this int id)
+        {
+            var c = id / 100000;
+            if (c * 100000 == id)
+                return (c, 0);
+            return (c, Math.Abs(id - c * 100000));
+        }
     }
 
     public static class ColorConvert
@@ -1241,5 +1383,29 @@ namespace SkinPackMaker
         }
         public static Color HexToColor(this string str) => uint.TryParse(str, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var c) ? Color.FromArgb(c.AsInt()) : Color.Black;
         public static string ToHex(this Color c) => $"{c.ToArgb().AsUInt():X8}";
+    }
+
+    [Serializable]
+    public class Settings
+    {
+        static FileStream settings = File.Open("SkinPackMaker.settings.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+        static DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Settings));
+        public readonly static Settings Instance;
+        public int LastCreatorID = 1;
+        static Settings()
+        {
+            try
+            {
+                Instance = (Settings)serializer.ReadObject(settings);
+            } catch
+            {
+                Instance = new Settings();
+            }
+        }
+        public static void Save()
+        {
+            settings.Seek(0, SeekOrigin.Begin);
+            serializer.WriteObject(settings, Instance);
+        }
     }
 }
