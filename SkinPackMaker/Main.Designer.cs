@@ -581,6 +581,7 @@ namespace SkinPackMaker
             this.helpButton7.Name = "helpButton7";
             this.helpButton7.Size = new System.Drawing.Size(23, 23);
             this.helpButton7.TabIndex = 35;
+            this.helpButton7.Tag = resources.GetString("helpButton7.Tag");
             this.helpButton7.Text = "?";
             this.helpButton7.UseVisualStyleBackColor = true;
             // 
