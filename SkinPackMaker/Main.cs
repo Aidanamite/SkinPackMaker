@@ -363,16 +363,19 @@ namespace SkinPackMaker
             }
         }
 
-        void LoadDatas(EquipmentData[] skins)
+        void LoadDatas(EquipmentData[] data)
         {
+            foreach (var item in data)
+                if (item.TypePreset != null && Constants.PresetNameCorrects.TryGetValue(item.TypePreset, out var correction))
+                    item.TypePreset = correction;
             SuspendLayout();
             while (EquipmentControls.Count > 0)
             {
                 EquipmentControls[0].Dispose();
                 EquipmentControls.RemoveAt(0);
             }
-            if (skins?.Length > 0)
-                foreach (var s in skins)
+            if (data?.Length > 0)
+                foreach (var s in data)
                     EquipmentControls.Add(new EquipmentControl(this, EquipmentLayout, s));
             SelectEquipment(EquipmentControls.FirstOrDefault());
             ResumeLayout();
@@ -396,17 +399,19 @@ namespace SkinPackMaker
                 using (var stream = File.OpenRead(filename))
                     LoadDatas((EquipmentData[])equipmentSerializer.ReadObject(stream));
                 CurrentFile = filename;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 try
                 {
                     using (var stream = File.OpenRead(filename))
                         LoadDatas((SkinData[])oldSkinSerializer.ReadObject(stream));
                     CurrentFile = filename;
-                    return;
                 }
-                catch { }
-                MessageBox.Show(this, "An error occured while loading the file\n"+e, "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch
+                {
+                    MessageBox.Show(this, "An error occured while loading the file\n" + e, "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -1139,7 +1144,11 @@ namespace SkinPackMaker
             { "Sandbuster", (122, new[] { "Sandbuster", "Spikes" })},
             { "Sword Stealer", (125, new[] { "DWSwordstealer", "DragonSpikesMesh" })},
             { "Light Fury", (126, new[] { "DWLightfury", "DWNightlight" })},
-            { "Crimson Holwer", (128, new[] { "PfDWCrimsonHolwer" })}
+            { "Crimson Howler", (128, new[] { "PfDWCrimsonHowler" })}
+        };
+        public static Dictionary<string, string> PresetNameCorrects = new Dictionary<string, string>
+        {
+            { "Crimson Holwer", "Crimson Howler" }
         };
     }
 

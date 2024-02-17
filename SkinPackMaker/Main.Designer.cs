@@ -581,7 +581,6 @@ namespace SkinPackMaker
             this.helpButton7.Name = "helpButton7";
             this.helpButton7.Size = new System.Drawing.Size(23, 23);
             this.helpButton7.TabIndex = 35;
-            this.helpButton7.Tag = resources.GetString("helpButton7.Tag");
             this.helpButton7.Text = "?";
             this.helpButton7.UseVisualStyleBackColor = true;
             // 
@@ -1252,7 +1251,7 @@ namespace SkinPackMaker
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "Skin Pack Maker - 1.2.0";
+            this.Text = "Skin Pack Maker - 1.2.1";
             this.MainPanel.Panel1.ResumeLayout(false);
             this.MainPanel.Panel2.ResumeLayout(false);
             this.MainPanel.Panel2.PerformLayout();
