@@ -1281,7 +1281,7 @@ namespace SkinPackMaker
             }
         }
         public static byte[] JsonSerialize(this object graph, Encoding encoding = null) => new DataContractJsonSerializer(graph.GetType()).Serialize(graph,encoding);
-        public static int JoinIDs(this (int creator, int item) ids) => ids.creator * 10000 + ids.item * (ids.creator < 0 ? -1 : 1);
+        public static int JoinIDs(this (int creator, int item) ids) => ids.creator * 100000 + ids.item * (ids.creator < 0 ? -1 : 1);
         public static (int creator, int item) SplitIDs(this int id)
         {
             var c = id / 100000;
