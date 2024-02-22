@@ -365,7 +365,8 @@ namespace SkinPackMaker
 
         void LoadDatas(EquipmentData[] data)
         {
-            foreach (var item in data)
+            if (data?.Length > 0)
+                foreach (var item in data)
                 if (item.TypePreset != null && Constants.PresetNameCorrects.TryGetValue(item.TypePreset, out var correction))
                     item.TypePreset = correction;
             SuspendLayout();
