@@ -1252,7 +1252,7 @@ namespace SkinPackMaker
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "Skin Pack Maker - 1.2.3";
+            this.Text = "Skin Pack Maker - 1.2.4";
             this.MainPanel.Panel1.ResumeLayout(false);
             this.MainPanel.Panel2.ResumeLayout(false);
             this.MainPanel.Panel2.PerformLayout();

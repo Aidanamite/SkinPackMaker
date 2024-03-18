@@ -1391,7 +1391,7 @@ namespace SkinPackMaker
                 B = (byte)(min + (360 - hue) * (max - min) / 60);
             }
         }
-        public static Color HexToColor(this string str) => uint.TryParse(str, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var c) ? Color.FromArgb(c.AsInt()) : Color.Black;
+        public static Color HexToColor(this string str) => uint.TryParse(str, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var c) ? Color.FromArgb((c | (str.Length <= 6 ? 0xFF000000 : 0)).AsInt()) : Color.Black;
         public static string ToHex(this Color c) => $"{c.ToArgb().AsUInt():X8}";
     }
 

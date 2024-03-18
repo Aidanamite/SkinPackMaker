@@ -229,7 +229,7 @@ namespace SkinPackMaker
             {
                 var str = new StringBuilder();
                 foreach (var c in t.Text)
-                    if (char.IsDigit(c))
+                    if (char.IsDigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))
                         str.Append(c);
                 var nt = str.ToString();
                 if (nt != t.Text)
