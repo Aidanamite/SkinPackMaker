@@ -15,6 +15,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.IO.Compression;
 using System.Configuration;
+using static SimpleResourceReplacer.CustomSkin;
 
 namespace SkinPackMaker
 {
@@ -51,6 +52,11 @@ namespace SkinPackMaker
             foreach (var p in Constants.TypePresets.Keys)
                 TypeSelector.Items.Add(p);
             TypeSelector.SelectedIndex = 0;
+            foreach (var c in new[] { BabyBodyShaderCombobox, BabyEyesShaderCombobox, TeenBodyShaderCombobox, TeenEyesShaderCombobox, AdultBodyShaderCombobox, AdultEyesShaderCombobox, TitanBodyShaderCombobox, TitanEyesShaderCombobox })
+                c.SetContents(Enum.GetNames(typeof(ShaderTypes)), ShaderTypes.Default.ToString());
+            foreach (var c in new[] { BabyExtraShaderCombobox, TeenExtraShaderCombobox, AdultExtraShaderCombobox, TitanExtraShaderCombobox })
+                c.SetContents(Enum.GetNames(typeof(ShaderTypes)), ShaderTypes.Extra.ToString());
+            RequiredAgeCombobox.SetContents(Enum.GetNames(typeof(Age)).Select(x => x.ToUpperInvariant()), Age.Teen.ToString().ToUpperInvariant());
             UnsavedChanges = false;
             var args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && args[1].ToLowerInvariant().EndsWith(".spproject") && File.Exists(args[1]))
@@ -167,7 +173,7 @@ namespace SkinPackMaker
 
         void SelectTypePreset(object sender, EventArgs e)
         {
-            var selected = TypeSelector.Items[TypeSelector.SelectedIndex].ToString();
+            var selected = TypeSelector.GetSelected();
             if (selected != "(Custom)" && Constants.TypePresets.TryGetValue(selected,out var v))
             {
                 settingPreset = true;
@@ -232,7 +238,7 @@ namespace SkinPackMaker
                     .Add(new ColorMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
-                        new MaterialData() { Property = Constants.ColorProperties.Keys.First(), Value = Constants.ColorProperties.Values.First().Item2.ToHex() }));
+                        new MaterialData() { Property = Constants.ColorProperties.Keys.First(), Value = Constants.ColorProperties.Values.First().value.ToHex() }));
             ResumeLayout();
             ControlChanged(sender, e);
         }
@@ -245,7 +251,7 @@ namespace SkinPackMaker
                     .Add(new FloatMaterialProperty(
                         this,
                         control.Tag as string == "HW" ? HWMaterialsLayout : MaterialsLayout,
-                        new MaterialData() { Property = Constants.FloatProperties.Keys.First(), Value = Constants.FloatProperties.Values.First().Item2.ToString() }));
+                        new MaterialData() { Property = Constants.FloatProperties.Keys.First(), Value = Constants.FloatProperties.Values.First().value.ToString() }));
             ResumeLayout();
             ControlChanged(sender, e);
         }
@@ -524,7 +530,7 @@ namespace SkinPackMaker
                     data.Name = s.data.Name;
                     data.ItemID = s.data.Id;
                     data.SkinIcon = imagePathsSpecial.TryGetValue(s.data.Icon.ToLowerInvariant(), out var v) ? v : s.data.Icon;
-                    
+                    data.RequiredAge = s.data.RequiredAge;
                     var type = s.data.Type;
                     if (s.data.TypePreset != null)
                         data.PetType = Constants.TypePresets[s.data.TypePreset].Type;
@@ -550,19 +556,75 @@ namespace SkinPackMaker
                             if (skinD.TitanMesh != null)
                                 skinC.Mesh.Titan = assetPaths.TryGetValue(skinD.TitanMesh.Value.Item1.ToLowerInvariant(), out var d) ? d[skinD.TitanMesh.Value.Item2] : $"{skinD.TitanMesh.Value.Item1}/{skinD.TitanMesh.Value.Item2}";
                         }
-                        skinC.MaterialData = skinD.Materials.Select(x => new SimpleResourceReplacer.MaterialProperty()
+                        skinC.BabyShaders = skinD.BabyShaders;
+                        skinC.TeenShaders = skinD.TeenShaders;
+                        skinC.AdultShaders = skinD.AdultShaders;
+                        skinC.TitanShaders = skinD.TitanShaders;
+                        SimpleResourceReplacer.MaterialProperty[] ConvertProps(IEnumerable<MaterialData> materials)
                         {
-                            Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
-                            Property = x.RealProperty,
-                            Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
-                        }).ToArray();
-                        if (skinD.HWMaterials != null)
-                            skinC.HWMaterialData = skinD.HWMaterials.Select(x => new SimpleResourceReplacer.MaterialProperty()
+                            var props = new List<SimpleResourceReplacer.MaterialProperty>();
+                            foreach (var i in materials)
                             {
-                                Target = x.Age + (x.Part == Part.Both ? "" : x.Part.ToString()),
-                                Property = x.RealProperty,
-                                Value = Constants.TextureProperties.ContainsKey(x.Property) && imagePaths.TryGetValue(x.Value.ToLowerInvariant(), out v) ? v : x.Value
-                            }).ToArray();
+                                var ss = i.Age == Age.Baby ? skinD.BabyShaders : i.Age == Age.Teen ? skinD.TeenShaders : i.Age == Age.Adult ? skinD.AdultShaders : skinD.TitanShaders;
+                                if (i.Part == Part.Eyes || i.Part == Part.Body || i.Part == Part.Extra || (i.Part == Part.Both && ss.Body == ss.Eyes) || (i.Part == Part.All && ss.Body == ss.Eyes && ss.Body == ss.Extra))
+                                    props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                    {
+                                        Target = i.Age + (i.Part == Part.Both ? "" : i.Part.ToString()),
+                                        Property = i.GetRealProperty((i.Part == Part.Eyes ? ss.Eyes : i.Part == Part.Extra ? ss.Extra : ss.Body) == ShaderTypes.Default),
+                                        Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                    });
+                                else if (i.Part == Part.Both)
+                                {
+                                    props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                    {
+                                        Target = i.Age + Part.Body.ToString(),
+                                        Property = i.GetRealProperty(ss.Body == ShaderTypes.Default),
+                                        Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                    });
+                                    props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                    {
+                                        Target = i.Age + Part.Eyes.ToString(),
+                                        Property = i.GetRealProperty(ss.Eyes == ShaderTypes.Default),
+                                        Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                    });
+                                }
+                                else
+                                {
+                                    if (ss.Body == ss.Eyes)
+                                        props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                        {
+                                            Target = i.Age.ToString(),
+                                            Property = i.GetRealProperty(ss.Body == ShaderTypes.Default),
+                                            Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                        });
+                                    else
+                                    {
+                                        props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                        {
+                                            Target = i.Age + Part.Body.ToString(),
+                                            Property = i.GetRealProperty(ss.Body == ShaderTypes.Default),
+                                            Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                        });
+                                        props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                        {
+                                            Target = i.Age + Part.Eyes.ToString(),
+                                            Property = i.GetRealProperty(ss.Eyes == ShaderTypes.Default),
+                                            Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                        });
+                                    }
+                                    props.Add(new SimpleResourceReplacer.MaterialProperty()
+                                    {
+                                        Target = i.Age + Part.Extra.ToString(),
+                                        Property = i.GetRealProperty(ss.Extra == ShaderTypes.Default),
+                                        Value = Constants.TextureProperties.ContainsKey(i.Property) && imagePaths.TryGetValue(i.Value.ToLowerInvariant(), out v) ? v : i.Value
+                                    });
+                                }
+                            }
+                            return props.ToArray();
+                        }
+                        skinC.MaterialData = ConvertProps(skinD.Materials);
+                        if (skinD.HWMaterials != null)
+                            skinC.HWMaterialData = ConvertProps(skinD.HWMaterials);
                     }
                     else if (s.data is SaddleData saddleD && data is SimpleResourceReplacer.CustomSaddle saddleC)
                     {
@@ -602,12 +664,15 @@ namespace SkinPackMaker
         public string Icon = "";
         public int Type;
         public string TypePreset;
+        [OptionalField]
+        public string RequiredAge = "TEEN";
         public virtual void Save(Main main)
         {
             Name = main.NameTextbox.Text;
             Id = ((int)main.CIDInput.Value, (int)main.IIDInput.Value).JoinIDs();
             Main.LastCreatorID = (int)main.CIDInput.Value;
             Icon = main.IconTextbox.Text;
+            RequiredAge = main.RequiredAgeCombobox.GetSelected();
             if (main.TypeSelector.SelectedIndex == 0)
             {
                 TypePreset = null;
@@ -615,7 +680,7 @@ namespace SkinPackMaker
             }
             else
             {
-                TypePreset = main.TypeSelector.Items[main.TypeSelector.SelectedIndex].ToString();
+                TypePreset = main.TypeSelector.GetSelected();
                 Type = 0;
             }
         }
@@ -624,6 +689,7 @@ namespace SkinPackMaker
             main.NameTextbox.Text = Name;
             (main.CIDInput.Value, main.IIDInput.Value) = Id.SplitIDs();
             main.IconTextbox.Text = Icon;
+            main.RequiredAgeCombobox.SetSelected(RequiredAge ?? Age.Teen.ToString().ToUpperInvariant());
             if (TypePreset == null)
             {
                 main.TypeSelector.SelectedIndex = 0;
@@ -664,6 +730,33 @@ namespace SkinPackMaker
         public (string, string)? TitanMesh;
         public List<MaterialData> Materials = new List<MaterialData>();
         public List<MaterialData> HWMaterials;
+        [OptionalField]
+        public Shaders BabyShaders = new Shaders();
+        [OptionalField]
+        public Shaders TeenShaders = new Shaders();
+        [OptionalField]
+        public Shaders AdultShaders = new Shaders();
+        [OptionalField]
+        public Shaders TitanShaders = new Shaders();
+        [Serializable]
+        public class Shaders
+        {
+            [OptionalField]
+            public ShaderTypes Body = ShaderTypes.Default;
+            [OptionalField]
+            public ShaderTypes Eyes = ShaderTypes.Default;
+            [OptionalField]
+            public ShaderTypes Extra = ShaderTypes.Extra;
+            public static implicit operator SimpleResourceReplacer.CustomSkin.Shaders(Shaders s) =>
+                s == null || (s.Body == ShaderTypes.Default && s.Eyes == ShaderTypes.Default && s.Extra == ShaderTypes.Extra)
+                ? null
+                : new SimpleResourceReplacer.CustomSkin.Shaders()
+                {
+                    Body = s.Body == ShaderTypes.Default ? null : s.Body.ToString(),
+                    Eyes = s.Eyes == ShaderTypes.Default ? null : s.Eyes.ToString(),
+                    Extra = s.Extra == ShaderTypes.Extra ? null : s.Extra.ToString()
+                };
+        }
         public override void Save(Main main)
         {
             base.Save(main);
@@ -679,6 +772,21 @@ namespace SkinPackMaker
             TeenMesh = string.IsNullOrWhiteSpace(main.TeenBundleTextbox.Text) ? null : ((string, string)?)(main.TeenBundleTextbox.Text, main.TeenAssetTextbox.Text);
             AdultMesh = string.IsNullOrWhiteSpace(main.AdultBundleTextbox.Text) ? null : ((string, string)?)(main.AdultBundleTextbox.Text, main.AdultAssetTextbox.Text);
             TitanMesh = string.IsNullOrWhiteSpace(main.TitanBundleTextbox.Text) ? null : ((string, string)?)(main.TitanBundleTextbox.Text, main.TitanAssetTextbox.Text);
+            Shaders GetShaders(ComboBox body, ComboBox eyes, ComboBox extra) =>
+                body.GetSelected() == ShaderTypes.Default.ToString()
+                && eyes.GetSelected() == ShaderTypes.Default.ToString()
+                && extra.GetSelected() == ShaderTypes.Extra.ToString()
+                ? null
+                : new Shaders()
+                {
+                    Body = (ShaderTypes)Enum.Parse(typeof(ShaderTypes), body.GetSelected()),
+                    Eyes = (ShaderTypes)Enum.Parse(typeof(ShaderTypes), eyes.GetSelected()),
+                    Extra = (ShaderTypes)Enum.Parse(typeof(ShaderTypes), extra.GetSelected())
+                };
+            BabyShaders = GetShaders(main.BabyBodyShaderCombobox, main.BabyEyesShaderCombobox, main.BabyExtraShaderCombobox);
+            TeenShaders = GetShaders(main.TeenBodyShaderCombobox, main.TeenEyesShaderCombobox, main.TeenExtraShaderCombobox);
+            AdultShaders = GetShaders(main.AdultBodyShaderCombobox, main.AdultEyesShaderCombobox, main.AdultExtraShaderCombobox);
+            TitanShaders = GetShaders(main.TitanBodyShaderCombobox, main.TitanEyesShaderCombobox, main.TitanExtraShaderCombobox);
             Materials.Clear();
             foreach (var p in main.MaterialProperties)
             {
@@ -711,6 +819,12 @@ namespace SkinPackMaker
             (main.TeenBundleTextbox.Text, main.TeenAssetTextbox.Text) = TeenMesh ?? ("", "");
             (main.AdultBundleTextbox.Text, main.AdultAssetTextbox.Text) = AdultMesh ?? ("", "");
             (main.TitanBundleTextbox.Text, main.TitanAssetTextbox.Text) = TitanMesh ?? ("", "");
+            void SetShaders(Shaders shaders, ComboBox body, ComboBox eyes, ComboBox extra)
+            {
+                body.SetSelected((shaders?.Body ?? ShaderTypes.Default).ToString());
+                eyes.SetSelected((shaders?.Eyes ?? ShaderTypes.Default).ToString());
+                extra.SetSelected((shaders?.Extra ?? ShaderTypes.Default).ToString());
+            }
             while (main.MaterialProperties.Count > 0)
             {
                 main.MaterialProperties[0].Dispose();
@@ -796,7 +910,7 @@ namespace SkinPackMaker
         public string Property;
         public string Value;
 
-        public string RealProperty => Constants.TextureProperties.TryGetValue(Property, out var n) ? n : Constants.ColorProperties.TryGetValue(Property, out var n2) ? n2.Item1 : Constants.FloatProperties.TryGetValue(Property, out var n3) ? n3.Item1 : Property;
+        public string GetRealProperty(bool main) => Constants.TextureProperties.TryGetValue(Property, out var n) ? main ? n.main : n.secondary : Constants.ColorProperties.TryGetValue(Property, out var n2) ? main ? n2.main : n2.secondary : Constants.FloatProperties.TryGetValue(Property, out var n3) ? main ? n3.main : n3.secondary : Property;
     }
 
     public enum Age
@@ -812,7 +926,16 @@ namespace SkinPackMaker
         Both,
         Eyes,
         Eye = Eyes,
-        Body
+        Body,
+        Extra,
+        All
+    }
+
+    public enum ShaderTypes
+    {
+        Default,
+        Eyes,
+        Extra
     }
 
     public abstract class MaterialProperty : Panel
@@ -876,16 +999,16 @@ namespace SkinPackMaker
 
         public virtual void Save()
         {
-            data.Age = (Age)Enum.Parse(typeof(Age), TargetAge.Items[TargetAge.SelectedIndex].ToString());
-            data.Part = (Part)Enum.Parse(typeof(Part), TargetPart.Items[TargetPart.SelectedIndex].ToString());
-            data.Property = Property.Items[Property.SelectedIndex].ToString();
+            data.Age = (Age)Enum.Parse(typeof(Age), TargetAge.GetSelected());
+            data.Part = (Part)Enum.Parse(typeof(Part), TargetPart.GetSelected());
+            data.Property = Property.GetSelected();
         }
     }
 
     public class TextureMaterialProperty : MaterialProperty
     {
         public TextBox Input;
-        public TextureMaterialProperty(Main main, Control parent, MaterialData material) : base(main,parent,material,Constants.TextureProperties.Keys)
+        public TextureMaterialProperty(Main main, Control parent, MaterialData material) : base(main,parent,material,Constants.TextureProperties.Select(x => x.Key + (x.Value.secondary == null ? " (Default Only)" : x.Value.main == null ? " (Not Default)" : "")))
         {
             Input = new TextBox();
             Input.Parent = this;
@@ -926,7 +1049,7 @@ namespace SkinPackMaker
     public class ColorMaterialProperty : MaterialProperty
     {
         public Button Btn;
-        public ColorMaterialProperty(Main main, Control parent, MaterialData material) : base(main, parent, material, Constants.ColorProperties.Keys)
+        public ColorMaterialProperty(Main main, Control parent, MaterialData material) : base(main, parent, material, Constants.ColorProperties.Select(x => x.Key + (x.Value.secondary == null ? " (Default Only)" : x.Value.main == null ? " (Not Default)" : "")))
         {
             Btn = new Button();
             Btn.Parent = this;
@@ -946,12 +1069,12 @@ namespace SkinPackMaker
             Btn.BackColorChanged += main.ControlChanged;
             Btn.Click += main.PickColor;
 
-            lastProp = Property.Items[Property.SelectedIndex].ToString();
+            lastProp = Property.GetSelected();
             Property.SelectedIndexChanged += (x, y) =>
             {
-                if (Equals(Btn.BackColor, Constants.ColorProperties[lastProp].Item2))
-                    Btn.BackColor = Constants.ColorProperties[Property.Items[Property.SelectedIndex].ToString()].Item2;
-                lastProp = Property.Items[Property.SelectedIndex].ToString();
+                if (Equals(Btn.BackColor, Constants.ColorProperties[lastProp].value))
+                    Btn.BackColor = Constants.ColorProperties[Property.GetSelected()].value;
+                lastProp = Property.GetSelected();
             };
         }
         string lastProp;
@@ -968,7 +1091,7 @@ namespace SkinPackMaker
     public class FloatMaterialProperty : MaterialProperty
     {
         public TextBox Input;
-        public FloatMaterialProperty(Main main, Control parent, MaterialData material) : base(main, parent, material, Constants.FloatProperties.Keys)
+        public FloatMaterialProperty(Main main, Control parent, MaterialData material) : base(main, parent, material, Constants.FloatProperties.Select(x => x.Key + (x.Value.secondary == null ? " (Default Only)" : x.Value.main == null ? " (Not Default)" : "")))
         {
             Input = new TextBox();
             Input.Parent = this;
@@ -988,12 +1111,12 @@ namespace SkinPackMaker
             Input.KeyPress += main.ValidateKeyNumericTextbox;
             Input.TextChanged += main.ControlChanged;
 
-            lastProp = Property.Items[Property.SelectedIndex].ToString();
+            lastProp = Property.GetSelected();
             Property.SelectedIndexChanged += (x, y) =>
             {
-                if (Input.Text == Constants.FloatProperties[lastProp].Item2.ToString())
-                    Input.Text = Constants.FloatProperties[Property.Items[Property.SelectedIndex].ToString()].Item2.ToString();
-                lastProp = Property.Items[Property.SelectedIndex].ToString();
+                if (Input.Text == Constants.FloatProperties[lastProp].value.ToString())
+                    Input.Text = Constants.FloatProperties[Property.GetSelected()].value.ToString();
+                lastProp = Property.GetSelected();
             };
         }
         string lastProp;
@@ -1016,30 +1139,31 @@ namespace SkinPackMaker
 
     public static class Constants
     {
-        public static SortedDictionary<string, string> TextureProperties = new SortedDictionary<string, string>()
+        public static SortedDictionary<string, (string main, string secondary)> TextureProperties = new SortedDictionary<string, (string, string)>()
         {
-            {"Normal Map","_BumpMap" },
-            {"Colour Mask","_ColorMask" },
-            {"Decal Map","_DecalMap" },
-            {"Main Texture","_DetailTex" },
-            {"Emissive Map","_EmissiveMap" },
-            {"Glow Map","_MKGlowTex" },
-            {"Specular Map","_SpecularMap" }
+            {"Normal Map",("_BumpMap",null) },
+            {"Colour Mask",("_ColorMask",null) },
+            {"Decal Map",("_DecalMap",null) },
+            {"Main Texture",("_DetailTex","_MainTex") },
+            {"Emissive Map",("_EmissiveMap",null) },
+            {"Glow Map",("_MKGlowTex",null) },
+            {"Specular Map",("_SpecularMap",null) }
         };
-        public static SortedDictionary<string, (string, Color)> ColorProperties = new SortedDictionary<string, (string, Color)>()
+        public static SortedDictionary<string, (string main, string secondary, Color value)> ColorProperties = new SortedDictionary<string, (string, string, Color)>()
         {
-            {"Emissive Colour",("_EmissiveColor", Color.Black) },
-            {"Glow Colour",("_MKGlowColor", Color.White) },
-            {"Glow Texture Colour",("_MKGlowTexColor", Color.White) },
-            {"Specular Colour",("_SpecColor", Color.Gray) }
+            {"Emissive Colour",("_EmissiveColor","_Emission", Color.Black) },
+            {"Glow Colour",("_MKGlowColor", null, Color.White) },
+            {"Glow Texture Colour",("_MKGlowTexColor", null, Color.White) },
+            {"Specular Colour",("_SpecColor", "_SpecColor", Color.Gray) },
+            {"Colour",(null, "_Color", Color.White) }
         };
-        public static SortedDictionary<string, (string, float)> FloatProperties = new SortedDictionary<string, (string, float)>()
+        public static SortedDictionary<string, (string main, string secondary, float value)> FloatProperties = new SortedDictionary<string, (string, string, float)>()
         {
-            {"Normal Strength",("_BumpStrength", 1) },
-            {"Decal Opacity",("_DecalOpacity",0) },
-            {"Glossiness",("_Glossiness",0.5f) },
-            {"Glow Power",("_MKGlowPower",0) },
-            {"Glow Texture Strength",("_MKGlowTexStrength",0) }
+            {"Normal Strength",("_BumpStrength",null, 1) },
+            {"Decal Opacity",("_DecalOpacity",null,0) },
+            {"Glossiness",("_Glossiness","_Shininess",0.5f) },
+            {"Glow Power",("_MKGlowPower",null,0) },
+            {"Glow Texture Strength",("_MKGlowTexStrength",null,0) }
         };
         public static Dictionary<string, string> OpenFileTypes = new Dictionary<string, string>()
         {
@@ -1165,7 +1289,7 @@ namespace SkinPackMaker
                 combo.Items.Add(p);
                 if (flag)
                     continue;
-                else if (p == selected)
+                else if (p.Split(' ')[0] == selected)
                     flag = true;
                 else
                     ind++;
@@ -1182,7 +1306,7 @@ namespace SkinPackMaker
             {
                 if (flag)
                     continue;
-                else if (p as string == selected)
+                else if ((p as string).Split(' ')[0] == selected)
                     flag = true;
                 else
                     ind++;
@@ -1191,6 +1315,7 @@ namespace SkinPackMaker
                 ind = 0;
             combo.SelectedIndex = ind;
         }
+        public static string GetSelected(this ComboBox combo) => (combo.Items[combo.SelectedIndex] as string).Split(' ')[0];
         public static unsafe int AsInt(this uint v) => (int)(void*)v;
         public static unsafe uint AsUInt(this int v) => (uint)(void*)v;
 

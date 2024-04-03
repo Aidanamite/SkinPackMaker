@@ -36,6 +36,9 @@ namespace SkinPackMaker
             this.CopySkinButton = new System.Windows.Forms.Button();
             this.RemoveSkinButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.RequiredAgeCombobox = new System.Windows.Forms.ComboBox();
+            this.helpButton14 = new SkinPackMaker.HelpButton();
+            this.label20 = new System.Windows.Forms.Label();
             this.helpButton5 = new SkinPackMaker.HelpButton();
             this.helpButton4 = new SkinPackMaker.HelpButton();
             this.helpButton3 = new SkinPackMaker.HelpButton();
@@ -58,6 +61,36 @@ namespace SkinPackMaker
             this.label1 = new System.Windows.Forms.Label();
             this.NameTextbox = new System.Windows.Forms.TextBox();
             this.SkinPanel = new System.Windows.Forms.Panel();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.helpButton15 = new SkinPackMaker.HelpButton();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.TitanExtraShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.TitanEyesShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.TitanBodyShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.AdultExtraShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.AdultEyesShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.AdultBodyShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.TeenExtraShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.TeenEyesShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.TeenBodyShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.BabyExtraShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.BabyEyesShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.BabyBodyShaderCombobox = new System.Windows.Forms.ComboBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.helpButton6 = new SkinPackMaker.HelpButton();
             this.label5 = new System.Windows.Forms.Label();
             this.RendererList = new System.Windows.Forms.ListBox();
@@ -135,6 +168,11 @@ namespace SkinPackMaker
             ((System.ComponentModel.ISupportInitialize)(this.TypeInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CIDInput)).BeginInit();
             this.SkinPanel.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -170,6 +208,9 @@ namespace SkinPackMaker
             // MainPanel.Panel2
             // 
             this.MainPanel.Panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.MainPanel.Panel2.Controls.Add(this.RequiredAgeCombobox);
+            this.MainPanel.Panel2.Controls.Add(this.helpButton14);
+            this.MainPanel.Panel2.Controls.Add(this.label20);
             this.MainPanel.Panel2.Controls.Add(this.helpButton5);
             this.MainPanel.Panel2.Controls.Add(this.helpButton4);
             this.MainPanel.Panel2.Controls.Add(this.helpButton3);
@@ -195,7 +236,7 @@ namespace SkinPackMaker
             this.MainPanel.Panel2.Controls.Add(this.SaddlePanel);
             this.MainPanel.Panel2.Enabled = false;
             this.MainPanel.Panel2MinSize = 200;
-            this.MainPanel.Size = new System.Drawing.Size(1334, 707);
+            this.MainPanel.Size = new System.Drawing.Size(1334, 857);
             this.MainPanel.SplitterDistance = 345;
             this.MainPanel.TabIndex = 1;
             // 
@@ -218,7 +259,7 @@ namespace SkinPackMaker
             this.EquipmentLayout.BackColor = System.Drawing.SystemColors.ControlDark;
             this.EquipmentLayout.Location = new System.Drawing.Point(3, 32);
             this.EquipmentLayout.Name = "EquipmentLayout";
-            this.EquipmentLayout.Size = new System.Drawing.Size(339, 672);
+            this.EquipmentLayout.Size = new System.Drawing.Size(339, 822);
             this.EquipmentLayout.TabIndex = 7;
             // 
             // CopySkinButton
@@ -253,9 +294,36 @@ namespace SkinPackMaker
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.AddNewSkin);
             // 
+            // RequiredAgeCombobox
+            // 
+            this.RequiredAgeCombobox.FormattingEnabled = true;
+            this.RequiredAgeCombobox.Location = new System.Drawing.Point(84, 82);
+            this.RequiredAgeCombobox.Name = "RequiredAgeCombobox";
+            this.RequiredAgeCombobox.Size = new System.Drawing.Size(164, 21);
+            this.RequiredAgeCombobox.TabIndex = 38;
+            // 
+            // helpButton14
+            // 
+            this.helpButton14.Location = new System.Drawing.Point(254, 80);
+            this.helpButton14.Name = "helpButton14";
+            this.helpButton14.Size = new System.Drawing.Size(23, 23);
+            this.helpButton14.TabIndex = 36;
+            this.helpButton14.Tag = "This is the minimum age of the dragon for the item to be equipped";
+            this.helpButton14.Text = "?";
+            this.helpButton14.UseVisualStyleBackColor = true;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(3, 85);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(75, 13);
+            this.label20.TabIndex = 35;
+            this.label20.Text = "Required Age:";
+            // 
             // helpButton5
             // 
-            this.helpButton5.Location = new System.Drawing.Point(438, 79);
+            this.helpButton5.Location = new System.Drawing.Point(438, 106);
             this.helpButton5.Name = "helpButton5";
             this.helpButton5.Size = new System.Drawing.Size(23, 23);
             this.helpButton5.TabIndex = 33;
@@ -266,7 +334,7 @@ namespace SkinPackMaker
             // 
             // helpButton4
             // 
-            this.helpButton4.Location = new System.Drawing.Point(188, 79);
+            this.helpButton4.Location = new System.Drawing.Point(188, 106);
             this.helpButton4.Name = "helpButton4";
             this.helpButton4.Size = new System.Drawing.Size(23, 23);
             this.helpButton4.TabIndex = 32;
@@ -367,7 +435,7 @@ namespace SkinPackMaker
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(217, 84);
+            this.label16.Location = new System.Drawing.Point(217, 111);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(45, 13);
             this.label16.TabIndex = 21;
@@ -378,7 +446,7 @@ namespace SkinPackMaker
             this.TypeSelector.FormattingEnabled = true;
             this.TypeSelector.Items.AddRange(new object[] {
             "Custom"});
-            this.TypeSelector.Location = new System.Drawing.Point(268, 81);
+            this.TypeSelector.Location = new System.Drawing.Point(268, 108);
             this.TypeSelector.Name = "TypeSelector";
             this.TypeSelector.Size = new System.Drawing.Size(164, 21);
             this.TypeSelector.TabIndex = 13;
@@ -387,7 +455,7 @@ namespace SkinPackMaker
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 84);
+            this.label6.Location = new System.Drawing.Point(3, 111);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 12;
@@ -395,7 +463,7 @@ namespace SkinPackMaker
             // 
             // TypeInput
             // 
-            this.TypeInput.Location = new System.Drawing.Point(62, 82);
+            this.TypeInput.Location = new System.Drawing.Point(62, 109);
             this.TypeInput.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -497,6 +565,7 @@ namespace SkinPackMaker
             this.SkinPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.SkinPanel.Controls.Add(this.groupBox6);
             this.SkinPanel.Controls.Add(this.helpButton6);
             this.SkinPanel.Controls.Add(this.label5);
             this.SkinPanel.Controls.Add(this.RendererList);
@@ -506,11 +575,312 @@ namespace SkinPackMaker
             this.SkinPanel.Controls.Add(this.button6);
             this.SkinPanel.Controls.Add(this.label7);
             this.SkinPanel.Controls.Add(this.splitContainer2);
-            this.SkinPanel.Location = new System.Drawing.Point(-1, 108);
+            this.SkinPanel.Location = new System.Drawing.Point(-1, 135);
             this.SkinPanel.Name = "SkinPanel";
-            this.SkinPanel.Size = new System.Drawing.Size(986, 599);
+            this.SkinPanel.Size = new System.Drawing.Size(986, 722);
             this.SkinPanel.TabIndex = 24;
             this.SkinPanel.Visible = false;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.helpButton15);
+            this.groupBox6.Controls.Add(this.groupBox10);
+            this.groupBox6.Controls.Add(this.groupBox9);
+            this.groupBox6.Controls.Add(this.groupBox8);
+            this.groupBox6.Controls.Add(this.groupBox7);
+            this.groupBox6.Location = new System.Drawing.Point(7, 303);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(752, 135);
+            this.groupBox6.TabIndex = 35;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "(Optional) Material Shaders";
+            // 
+            // helpButton15
+            // 
+            this.helpButton15.Location = new System.Drawing.Point(147, 0);
+            this.helpButton15.Name = "helpButton15";
+            this.helpButton15.Size = new System.Drawing.Size(23, 23);
+            this.helpButton15.TabIndex = 36;
+            this.helpButton15.Tag = "These allow changing what renderer is used for each of the materials. All of thes" +
+    "e are optional";
+            this.helpButton15.Text = "?";
+            this.helpButton15.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.TitanExtraShaderCombobox);
+            this.groupBox10.Controls.Add(this.label30);
+            this.groupBox10.Controls.Add(this.TitanEyesShaderCombobox);
+            this.groupBox10.Controls.Add(this.label31);
+            this.groupBox10.Controls.Add(this.TitanBodyShaderCombobox);
+            this.groupBox10.Controls.Add(this.label32);
+            this.groupBox10.Location = new System.Drawing.Point(561, 19);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(179, 106);
+            this.groupBox10.TabIndex = 7;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Titan";
+            // 
+            // TitanExtraShaderCombobox
+            // 
+            this.TitanExtraShaderCombobox.FormattingEnabled = true;
+            this.TitanExtraShaderCombobox.Location = new System.Drawing.Point(46, 73);
+            this.TitanExtraShaderCombobox.Name = "TitanExtraShaderCombobox";
+            this.TitanExtraShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.TitanExtraShaderCombobox.TabIndex = 5;
+            this.TitanExtraShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 76);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(34, 13);
+            this.label30.TabIndex = 4;
+            this.label30.Text = "Extra:";
+            // 
+            // TitanEyesShaderCombobox
+            // 
+            this.TitanEyesShaderCombobox.FormattingEnabled = true;
+            this.TitanEyesShaderCombobox.Location = new System.Drawing.Point(46, 46);
+            this.TitanEyesShaderCombobox.Name = "TitanEyesShaderCombobox";
+            this.TitanEyesShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.TitanEyesShaderCombobox.TabIndex = 3;
+            this.TitanEyesShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(6, 49);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(33, 13);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "Eyes:";
+            // 
+            // TitanBodyShaderCombobox
+            // 
+            this.TitanBodyShaderCombobox.FormattingEnabled = true;
+            this.TitanBodyShaderCombobox.Location = new System.Drawing.Point(46, 19);
+            this.TitanBodyShaderCombobox.Name = "TitanBodyShaderCombobox";
+            this.TitanBodyShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.TitanBodyShaderCombobox.TabIndex = 1;
+            this.TitanBodyShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(6, 22);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(34, 13);
+            this.label32.TabIndex = 0;
+            this.label32.Text = "Body:";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.AdultExtraShaderCombobox);
+            this.groupBox9.Controls.Add(this.label27);
+            this.groupBox9.Controls.Add(this.AdultEyesShaderCombobox);
+            this.groupBox9.Controls.Add(this.label28);
+            this.groupBox9.Controls.Add(this.AdultBodyShaderCombobox);
+            this.groupBox9.Controls.Add(this.label29);
+            this.groupBox9.Location = new System.Drawing.Point(376, 19);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(179, 106);
+            this.groupBox9.TabIndex = 7;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Adult";
+            // 
+            // AdultExtraShaderCombobox
+            // 
+            this.AdultExtraShaderCombobox.FormattingEnabled = true;
+            this.AdultExtraShaderCombobox.Location = new System.Drawing.Point(46, 73);
+            this.AdultExtraShaderCombobox.Name = "AdultExtraShaderCombobox";
+            this.AdultExtraShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.AdultExtraShaderCombobox.TabIndex = 5;
+            this.AdultExtraShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 76);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(34, 13);
+            this.label27.TabIndex = 4;
+            this.label27.Text = "Extra:";
+            // 
+            // AdultEyesShaderCombobox
+            // 
+            this.AdultEyesShaderCombobox.FormattingEnabled = true;
+            this.AdultEyesShaderCombobox.Location = new System.Drawing.Point(46, 46);
+            this.AdultEyesShaderCombobox.Name = "AdultEyesShaderCombobox";
+            this.AdultEyesShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.AdultEyesShaderCombobox.TabIndex = 3;
+            this.AdultEyesShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 49);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(33, 13);
+            this.label28.TabIndex = 2;
+            this.label28.Text = "Eyes:";
+            // 
+            // AdultBodyShaderCombobox
+            // 
+            this.AdultBodyShaderCombobox.FormattingEnabled = true;
+            this.AdultBodyShaderCombobox.Location = new System.Drawing.Point(46, 19);
+            this.AdultBodyShaderCombobox.Name = "AdultBodyShaderCombobox";
+            this.AdultBodyShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.AdultBodyShaderCombobox.TabIndex = 1;
+            this.AdultBodyShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 22);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(34, 13);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "Body:";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.TeenExtraShaderCombobox);
+            this.groupBox8.Controls.Add(this.label24);
+            this.groupBox8.Controls.Add(this.TeenEyesShaderCombobox);
+            this.groupBox8.Controls.Add(this.label25);
+            this.groupBox8.Controls.Add(this.TeenBodyShaderCombobox);
+            this.groupBox8.Controls.Add(this.label26);
+            this.groupBox8.Location = new System.Drawing.Point(191, 19);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(179, 106);
+            this.groupBox8.TabIndex = 6;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Teen";
+            // 
+            // TeenExtraShaderCombobox
+            // 
+            this.TeenExtraShaderCombobox.FormattingEnabled = true;
+            this.TeenExtraShaderCombobox.Location = new System.Drawing.Point(46, 73);
+            this.TeenExtraShaderCombobox.Name = "TeenExtraShaderCombobox";
+            this.TeenExtraShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.TeenExtraShaderCombobox.TabIndex = 5;
+            this.TeenExtraShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 76);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(34, 13);
+            this.label24.TabIndex = 4;
+            this.label24.Text = "Extra:";
+            // 
+            // TeenEyesShaderCombobox
+            // 
+            this.TeenEyesShaderCombobox.FormattingEnabled = true;
+            this.TeenEyesShaderCombobox.Location = new System.Drawing.Point(46, 46);
+            this.TeenEyesShaderCombobox.Name = "TeenEyesShaderCombobox";
+            this.TeenEyesShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.TeenEyesShaderCombobox.TabIndex = 3;
+            this.TeenEyesShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 49);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(33, 13);
+            this.label25.TabIndex = 2;
+            this.label25.Text = "Eyes:";
+            // 
+            // TeenBodyShaderCombobox
+            // 
+            this.TeenBodyShaderCombobox.FormattingEnabled = true;
+            this.TeenBodyShaderCombobox.Location = new System.Drawing.Point(46, 19);
+            this.TeenBodyShaderCombobox.Name = "TeenBodyShaderCombobox";
+            this.TeenBodyShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.TeenBodyShaderCombobox.TabIndex = 1;
+            this.TeenBodyShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 22);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(34, 13);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "Body:";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.BabyExtraShaderCombobox);
+            this.groupBox7.Controls.Add(this.label23);
+            this.groupBox7.Controls.Add(this.BabyEyesShaderCombobox);
+            this.groupBox7.Controls.Add(this.label22);
+            this.groupBox7.Controls.Add(this.BabyBodyShaderCombobox);
+            this.groupBox7.Controls.Add(this.label21);
+            this.groupBox7.Location = new System.Drawing.Point(6, 19);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(179, 106);
+            this.groupBox7.TabIndex = 2;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Baby";
+            // 
+            // BabyExtraShaderCombobox
+            // 
+            this.BabyExtraShaderCombobox.FormattingEnabled = true;
+            this.BabyExtraShaderCombobox.Location = new System.Drawing.Point(46, 73);
+            this.BabyExtraShaderCombobox.Name = "BabyExtraShaderCombobox";
+            this.BabyExtraShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.BabyExtraShaderCombobox.TabIndex = 5;
+            this.BabyExtraShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(6, 76);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(34, 13);
+            this.label23.TabIndex = 4;
+            this.label23.Text = "Extra:";
+            // 
+            // BabyEyesShaderCombobox
+            // 
+            this.BabyEyesShaderCombobox.FormattingEnabled = true;
+            this.BabyEyesShaderCombobox.Location = new System.Drawing.Point(46, 46);
+            this.BabyEyesShaderCombobox.Name = "BabyEyesShaderCombobox";
+            this.BabyEyesShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.BabyEyesShaderCombobox.TabIndex = 3;
+            this.BabyEyesShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(6, 49);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(33, 13);
+            this.label22.TabIndex = 2;
+            this.label22.Text = "Eyes:";
+            // 
+            // BabyBodyShaderCombobox
+            // 
+            this.BabyBodyShaderCombobox.FormattingEnabled = true;
+            this.BabyBodyShaderCombobox.Location = new System.Drawing.Point(46, 19);
+            this.BabyBodyShaderCombobox.Name = "BabyBodyShaderCombobox";
+            this.BabyBodyShaderCombobox.Size = new System.Drawing.Size(121, 21);
+            this.BabyBodyShaderCombobox.TabIndex = 1;
+            this.BabyBodyShaderCombobox.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 22);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(34, 13);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Body:";
             // 
             // helpButton6
             // 
@@ -856,7 +1226,7 @@ namespace SkinPackMaker
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 300);
+            this.label7.Location = new System.Drawing.Point(4, 441);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(97, 13);
             this.label7.TabIndex = 15;
@@ -869,7 +1239,7 @@ namespace SkinPackMaker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 316);
+            this.splitContainer2.Location = new System.Drawing.Point(0, 457);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -887,7 +1257,7 @@ namespace SkinPackMaker
             this.splitContainer2.Panel2.Controls.Add(this.helpButton9);
             this.splitContainer2.Panel2.Controls.Add(this.HWPanel);
             this.splitContainer2.Panel2.Controls.Add(this.HWCheckbox);
-            this.splitContainer2.Size = new System.Drawing.Size(986, 283);
+            this.splitContainer2.Size = new System.Drawing.Size(986, 265);
             this.splitContainer2.SplitterDistance = 458;
             this.splitContainer2.TabIndex = 14;
             // 
@@ -911,7 +1281,7 @@ namespace SkinPackMaker
             this.MaterialsLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.MaterialsLayout.Location = new System.Drawing.Point(3, 32);
             this.MaterialsLayout.Name = "MaterialsLayout";
-            this.MaterialsLayout.Size = new System.Drawing.Size(450, 246);
+            this.MaterialsLayout.Size = new System.Drawing.Size(450, 228);
             this.MaterialsLayout.TabIndex = 3;
             this.MaterialsLayout.WrapContents = false;
             // 
@@ -971,7 +1341,7 @@ namespace SkinPackMaker
             this.HWPanel.Enabled = false;
             this.HWPanel.Location = new System.Drawing.Point(3, 26);
             this.HWPanel.Name = "HWPanel";
-            this.HWPanel.Size = new System.Drawing.Size(516, 252);
+            this.HWPanel.Size = new System.Drawing.Size(516, 234);
             this.HWPanel.TabIndex = 1;
             // 
             // helpButton10
@@ -995,7 +1365,7 @@ namespace SkinPackMaker
             this.HWMaterialsLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.HWMaterialsLayout.Location = new System.Drawing.Point(1, 32);
             this.HWMaterialsLayout.Name = "HWMaterialsLayout";
-            this.HWMaterialsLayout.Size = new System.Drawing.Size(515, 220);
+            this.HWMaterialsLayout.Size = new System.Drawing.Size(515, 202);
             this.HWMaterialsLayout.TabIndex = 6;
             this.HWMaterialsLayout.WrapContents = false;
             // 
@@ -1059,9 +1429,9 @@ namespace SkinPackMaker
             this.SaddlePanel.Controls.Add(this.SaddleBundleTextbox);
             this.SaddlePanel.Controls.Add(this.label17);
             this.SaddlePanel.Controls.Add(this.button2);
-            this.SaddlePanel.Location = new System.Drawing.Point(-1, 108);
+            this.SaddlePanel.Location = new System.Drawing.Point(-1, 135);
             this.SaddlePanel.Name = "SaddlePanel";
-            this.SaddlePanel.Size = new System.Drawing.Size(986, 599);
+            this.SaddlePanel.Size = new System.Drawing.Size(986, 722);
             this.SaddlePanel.TabIndex = 25;
             this.SaddlePanel.Visible = false;
             // 
@@ -1246,13 +1616,13 @@ namespace SkinPackMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1334, 731);
+            this.ClientSize = new System.Drawing.Size(1334, 881);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
-            this.Text = "Skin Pack Maker - 1.2.4";
+            this.Text = "Skin Pack Maker - 1.3.0";
             this.MainPanel.Panel1.ResumeLayout(false);
             this.MainPanel.Panel2.ResumeLayout(false);
             this.MainPanel.Panel2.PerformLayout();
@@ -1263,6 +1633,15 @@ namespace SkinPackMaker
             ((System.ComponentModel.ISupportInitialize)(this.CIDInput)).EndInit();
             this.SkinPanel.ResumeLayout(false);
             this.SkinPanel.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -1387,6 +1766,39 @@ namespace SkinPackMaker
         private HelpButton helpButton13;
         private HelpButton helpButton12;
         private HelpButton helpButton11;
+        private HelpButton helpButton14;
+        public System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox10;
+        public System.Windows.Forms.GroupBox groupBox6;
+        public System.Windows.Forms.ComboBox AdultExtraShaderCombobox;
+        public System.Windows.Forms.Label label27;
+        public System.Windows.Forms.ComboBox AdultEyesShaderCombobox;
+        public System.Windows.Forms.Label label28;
+        public System.Windows.Forms.ComboBox AdultBodyShaderCombobox;
+        public System.Windows.Forms.Label label29;
+        public System.Windows.Forms.ComboBox TeenExtraShaderCombobox;
+        public System.Windows.Forms.Label label24;
+        public System.Windows.Forms.ComboBox TeenEyesShaderCombobox;
+        public System.Windows.Forms.Label label25;
+        public System.Windows.Forms.ComboBox TeenBodyShaderCombobox;
+        public System.Windows.Forms.Label label26;
+        public System.Windows.Forms.ComboBox BabyExtraShaderCombobox;
+        public System.Windows.Forms.Label label23;
+        public System.Windows.Forms.ComboBox BabyEyesShaderCombobox;
+        public System.Windows.Forms.Label label22;
+        public System.Windows.Forms.ComboBox BabyBodyShaderCombobox;
+        public System.Windows.Forms.Label label21;
+        public HelpButton helpButton15;
+        public System.Windows.Forms.ComboBox TitanExtraShaderCombobox;
+        public System.Windows.Forms.Label label30;
+        public System.Windows.Forms.ComboBox TitanEyesShaderCombobox;
+        public System.Windows.Forms.Label label31;
+        public System.Windows.Forms.ComboBox TitanBodyShaderCombobox;
+        public System.Windows.Forms.Label label32;
+        public System.Windows.Forms.ComboBox RequiredAgeCombobox;
     }
 }
 

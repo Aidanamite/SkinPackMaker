@@ -14,6 +14,8 @@ namespace SimpleResourceReplacer
         public int ItemID;
         public string SkinIcon;
         public int PetType;
+        [OptionalField]
+        public string RequiredAge = "TEEN";
     }
 
     [Serializable]
@@ -36,6 +38,28 @@ namespace SimpleResourceReplacer
         [OptionalField]
         [DataMember(EmitDefaultValue = false)]
         public MaterialProperty[] HWMaterialData;
+        [OptionalField]
+        [DataMember(EmitDefaultValue = false)]
+        public Shaders BabyShaders;
+        [OptionalField]
+        [DataMember(EmitDefaultValue = false)]
+        public Shaders TeenShaders;
+        [OptionalField]
+        [DataMember(EmitDefaultValue = false)]
+        public Shaders AdultShaders;
+        [OptionalField]
+        [DataMember(EmitDefaultValue = false)]
+        public Shaders TitanShaders;
+        [Serializable]
+        public class Shaders
+        {
+            [OptionalField]
+            public string Body;
+            [OptionalField]
+            public string Eyes;
+            [OptionalField]
+            public string Extra;
+        }
     }
     [Serializable]
     public class MaterialProperty
