@@ -565,7 +565,7 @@ namespace SkinPackMaker
                             var props = new List<SimpleResourceReplacer.MaterialProperty>();
                             foreach (var i in materials)
                             {
-                                var ss = i.Age == Age.Baby ? skinD.BabyShaders : i.Age == Age.Teen ? skinD.TeenShaders : i.Age == Age.Adult ? skinD.AdultShaders : skinD.TitanShaders;
+                                var ss = (i.Age == Age.Baby ? skinD.BabyShaders : i.Age == Age.Teen ? skinD.TeenShaders : i.Age == Age.Adult ? skinD.AdultShaders : skinD.TitanShaders) ?? new SkinData.Shaders();
                                 if (i.Part == Part.Eyes || i.Part == Part.Body || i.Part == Part.Extra || (i.Part == Part.Both && ss.Body == ss.Eyes) || (i.Part == Part.All && ss.Body == ss.Eyes && ss.Body == ss.Extra))
                                     props.Add(new SimpleResourceReplacer.MaterialProperty()
                                     {
