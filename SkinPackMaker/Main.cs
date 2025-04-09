@@ -21,7 +21,7 @@ namespace SkinPackMaker
 {
     public partial class Main : Form
     {
-        public const string VERSION = "1.3.2.0";
+        public const string VERSION = "1.3.3.0";
         public const string CustomBundleName = "RS_SHARED/customassets";
         public static Image NoImage;
         public static Image ErrorImage;
@@ -1439,7 +1439,7 @@ namespace SkinPackMaker
             if (file == null)
                 return;
             dialog.FileName = Path.GetFileName(file);
-            if (Directory.Exists(Path.GetDirectoryName(file)))
+            if (!string.IsNullOrWhiteSpace(file) && Directory.Exists(Path.GetDirectoryName(file)))
                 dialog.InitialDirectory = Path.GetDirectoryName(file);
         }
     }
