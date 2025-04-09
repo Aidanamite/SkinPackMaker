@@ -28,6 +28,7 @@ namespace SkinPackMaker
         public bool UnsavedChanges = false;
         public bool UnsavedPackChanges = false;
         public string CurrentFile;
+        public string LastPackExport;
         EquipmentControl LastSelected;
         public List<EquipmentControl> EquipmentControls = new List<EquipmentControl>();
         public List<MaterialProperty> MaterialProperties = new List<MaterialProperty>();
@@ -46,6 +47,7 @@ namespace SkinPackMaker
         public Main()
         {
             InitializeComponent();
+            Text += " - " + VERSION;
             NoImage = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("SkinPackMaker.no-image.png"));
             ErrorImage = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("SkinPackMaker.error.png"));
             TypeSelector.Items.Clear();
@@ -163,12 +165,12 @@ namespace SkinPackMaker
         {
             if (sender is Control control && control.Parent.Controls[control.Tag?.ToString()] is TextBox text && Constants.OpenFileTypes.TryGetValue(text.Tag?.ToString(), out var filter))
             {
-                OpenDialog.Filter = filter;
-                OpenDialog.Title = text.Tag?.ToString();
-                if (File.Exists(text.Text))
-                    OpenDialog.FileName = text.Text;
-                if (OpenDialog.ShowDialog(this) == DialogResult.OK)
-                    text.Text = OpenDialog.FileName;
+                var dialog = OpenDialog;
+                dialog.Filter = filter;
+                dialog.Title = text.Tag?.ToString();
+                dialog.TrySetFile(text.Text);
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                    text.Text = dialog.FileName;
             }
         }
 
@@ -342,6 +344,7 @@ namespace SkinPackMaker
             if (filename == null)
             {
                 SaveDialog.Filter = Constants.SaveFileTypes[SaveDialog.Title = "Save Project"];
+                SaveDialog.TrySetFile(CurrentFile);
                 if (SaveDialog.ShowDialog(this) != DialogResult.OK)
                     return false;
                 filename = SaveDialog.FileName;
@@ -395,6 +398,7 @@ namespace SkinPackMaker
             if (EnsureFileSaved())
             {
                 OpenDialog.Filter = Constants.OpenFileTypes[OpenDialog.Title = "Open Project"];
+                OpenDialog.TrySetFile(CurrentFile);
                 if (OpenDialog.ShowDialog(this) == DialogResult.OK)
                     TryOpenFile(OpenDialog.FileName);
             }
@@ -436,11 +440,12 @@ namespace SkinPackMaker
             }
             if (!EnsureFileSaved())
                 return;
-            SaveDialog.Filter = Constants.SaveFileTypes[SaveDialog.Title = "Export Pack"];
+            SaveDialog.Filter = Constants.SaveFileTypes[SavePackDialog.Title = "Export Pack"];
+            SaveDialog.TrySetFile(LastPackExport);
             if (SaveDialog.ShowDialog(this) != DialogResult.OK)
                 return;
             try { 
-                var filename = SaveDialog.FileName;
+                var filename = LastPackExport = SavePackDialog.FileName;
                 var simpleName = Path.GetFileNameWithoutExtension(filename);
                 var tick = DateTime.UtcNow.Ticks;
                 var packagedFiles = new Dictionary<string, (string, byte[])>();
@@ -1428,6 +1433,14 @@ namespace SkinPackMaker
             if (c * 100000 == id)
                 return (c, 0);
             return (c, Math.Abs(id - c * 100000));
+        }
+        public static void TrySetFile(this FileDialog dialog, string file)
+        {
+            if (file == null)
+                return;
+            dialog.FileName = Path.GetFileName(file);
+            if (Directory.Exists(Path.GetDirectoryName(file)))
+                dialog.InitialDirectory = Path.GetDirectoryName(file);
         }
     }
 
