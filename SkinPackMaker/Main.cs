@@ -21,6 +21,7 @@ namespace SkinPackMaker
 {
     public partial class Main : Form
     {
+        public const string VERSION = "1.3.2.0";
         public const string CustomBundleName = "RS_SHARED/customassets";
         public static Image NoImage;
         public static Image ErrorImage;
@@ -448,11 +449,18 @@ namespace SkinPackMaker
                 var imagePathsSpecial = new Dictionary<string, string>();
                 var allImages = new HashSet<string>();
                 var ind = 0;
+                var missingFiles = new HashSet<string>();
                 void TryAddImage(string file, bool imageSpecialBundle = false)
                 {
-                    if (file == null || !File.Exists(file))
+                    if (file == null)
                         return;
                     var lFile = file.ToLowerInvariant();
+                    if (!File.Exists(file))
+                    {
+                        if (!imageSpecialBundle || !lFile.StartsWith("rs_") || lFile.Contains('\\'))
+                            missingFiles.Add(lFile);
+                        return;
+                    }
                     var d = imageSpecialBundle ? imagePathsSpecial : imagePaths;
                     if (d.ContainsKey(lFile))
                         return;
@@ -465,9 +473,13 @@ namespace SkinPackMaker
                 }
                 void TryAddBundle(string file, string asset)
                 {
-                    if (!File.Exists(file))
-                        return;
                     var lFile = file.ToLowerInvariant();
+                    if (!File.Exists(file))
+                    {
+                        if (!lFile.StartsWith("rs_") || lFile.Contains('\\'))
+                            missingFiles.Add(lFile);
+                        return;
+                    }
                     var d = assetPaths.GetOrCreate(lFile);
                     if (d.ContainsKey(asset))
                         return;
@@ -500,6 +512,8 @@ namespace SkinPackMaker
                         TryAddImage(saddleD.Texture,true);
                     }
                 }
+                if (missingFiles.Count > 0 && MessageBox.Show(this, $"The exporter was unable to find one or more files:\n • {string.Join("\n • " ,missingFiles)}\n\nWould you like to export the pack anyway?", "Missing File(s)", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    return;
                 foreach (var p in allImages)
                 {
                     var str = "";
@@ -924,11 +938,11 @@ namespace SkinPackMaker
     public enum Part
     {
         Both,
-        Eyes,
-        Eye = Eyes,
+        Eye,
         Body,
         Extra,
-        All
+        All,
+        Eyes = Eye
     }
 
     public enum ShaderTypes
