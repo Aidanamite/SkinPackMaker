@@ -21,7 +21,7 @@ namespace SkinPackMaker
 {
     public partial class Main : Form
     {
-        public const string VERSION = "1.3.3.0";
+        public const string VERSION = "1.3.5.0";
         public const string CustomBundleName = "RS_SHARED/customassets";
         public static Image NoImage;
         public static Image ErrorImage;
@@ -440,12 +440,12 @@ namespace SkinPackMaker
             }
             if (!EnsureFileSaved())
                 return;
-            SaveDialog.Filter = Constants.SaveFileTypes[SavePackDialog.Title = "Export Pack"];
+            SaveDialog.Filter = Constants.SaveFileTypes[SaveDialog.Title = "Export Pack"];
             SaveDialog.TrySetFile(LastPackExport);
             if (SaveDialog.ShowDialog(this) != DialogResult.OK)
                 return;
             try { 
-                var filename = LastPackExport = SavePackDialog.FileName;
+                var filename = LastPackExport = SaveDialog.FileName;
                 var simpleName = Path.GetFileNameWithoutExtension(filename);
                 var tick = DateTime.UtcNow.Ticks;
                 var packagedFiles = new Dictionary<string, (string, byte[])>();
@@ -844,6 +844,10 @@ namespace SkinPackMaker
                 eyes.SetSelected((shaders?.Eyes ?? ShaderTypes.Default).ToString());
                 extra.SetSelected((shaders?.Extra ?? ShaderTypes.Default).ToString());
             }
+            SetShaders(BabyShaders, main.BabyBodyShaderCombobox, main.BabyEyesShaderCombobox, main.BabyExtraShaderCombobox);
+            SetShaders(TeenShaders, main.TeenBodyShaderCombobox, main.TeenEyesShaderCombobox, main.TeenExtraShaderCombobox);
+            SetShaders(AdultShaders, main.AdultBodyShaderCombobox, main.AdultEyesShaderCombobox, main.AdultExtraShaderCombobox);
+            SetShaders(TitanShaders, main.TitanBodyShaderCombobox, main.TitanEyesShaderCombobox, main.TitanExtraShaderCombobox);
             while (main.MaterialProperties.Count > 0)
             {
                 main.MaterialProperties[0].Dispose();

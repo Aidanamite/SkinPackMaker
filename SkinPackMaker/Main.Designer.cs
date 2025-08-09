@@ -160,11 +160,6 @@ namespace SkinPackMaker
             this.exportResourcePackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.OpenProjectDialog = new System.Windows.Forms.OpenFileDialog();
-            this.OpenTextureDialog = new System.Windows.Forms.OpenFileDialog();
-            this.OpenBundleDialog = new System.Windows.Forms.OpenFileDialog();
-            this.SaveProjectDialog = new System.Windows.Forms.SaveFileDialog();
-            this.SavePackDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.MainPanel)).BeginInit();
             this.MainPanel.Panel1.SuspendLayout();
             this.MainPanel.Panel2.SuspendLayout();
@@ -1804,11 +1799,6 @@ namespace SkinPackMaker
         public System.Windows.Forms.ComboBox TitanBodyShaderCombobox;
         public System.Windows.Forms.Label label32;
         public System.Windows.Forms.ComboBox RequiredAgeCombobox;
-        public System.Windows.Forms.OpenFileDialog OpenProjectDialog;
-        public System.Windows.Forms.OpenFileDialog OpenTextureDialog;
-        public System.Windows.Forms.OpenFileDialog OpenBundleDialog;
-        public System.Windows.Forms.SaveFileDialog SaveProjectDialog;
-        public System.Windows.Forms.SaveFileDialog SavePackDialog;
     }
 }
 
