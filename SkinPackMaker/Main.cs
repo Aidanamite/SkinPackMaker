@@ -21,7 +21,7 @@ namespace SkinPackMaker
 {
     public partial class Main : Form
     {
-        public const string VERSION = "1.3.5.0";
+        public const string VERSION = "1.3.6.0";
         public const string CustomBundleName = "RS_SHARED/customassets";
         public static Image NoImage;
         public static Image ErrorImage;
@@ -842,7 +842,7 @@ namespace SkinPackMaker
             {
                 body.SetSelected((shaders?.Body ?? ShaderTypes.Default).ToString());
                 eyes.SetSelected((shaders?.Eyes ?? ShaderTypes.Default).ToString());
-                extra.SetSelected((shaders?.Extra ?? ShaderTypes.Default).ToString());
+                extra.SetSelected((shaders?.Extra ?? ShaderTypes.Extra).ToString());
             }
             SetShaders(BabyShaders, main.BabyBodyShaderCombobox, main.BabyEyesShaderCombobox, main.BabyExtraShaderCombobox);
             SetShaders(TeenShaders, main.TeenBodyShaderCombobox, main.TeenEyesShaderCombobox, main.TeenExtraShaderCombobox);
