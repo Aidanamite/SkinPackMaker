@@ -21,7 +21,7 @@ namespace SkinPackMaker
 {
     public partial class Main : Form
     {
-        public const string VERSION = "1.3.6.0";
+        public const string VERSION = "1.3.7.0";
         public const string CustomBundleName = "RS_SHARED/customassets";
         public static Image NoImage;
         public static Image ErrorImage;

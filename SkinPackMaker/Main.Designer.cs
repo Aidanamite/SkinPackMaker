@@ -565,6 +565,10 @@ namespace SkinPackMaker
             this.SkinPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.SkinPanel.AutoScroll = true;
+            this.SkinPanel.AutoScrollMinSize = new System.Drawing.Size(0, 700);
+            this.SkinPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SkinPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SkinPanel.Controls.Add(this.groupBox6);
             this.SkinPanel.Controls.Add(this.helpButton6);
             this.SkinPanel.Controls.Add(this.label5);
@@ -1257,8 +1261,8 @@ namespace SkinPackMaker
             this.splitContainer2.Panel2.Controls.Add(this.helpButton9);
             this.splitContainer2.Panel2.Controls.Add(this.HWPanel);
             this.splitContainer2.Panel2.Controls.Add(this.HWCheckbox);
-            this.splitContainer2.Size = new System.Drawing.Size(986, 265);
-            this.splitContainer2.SplitterDistance = 458;
+            this.splitContainer2.Size = new System.Drawing.Size(984, 263);
+            this.splitContainer2.SplitterDistance = 457;
             this.splitContainer2.TabIndex = 14;
             // 
             // helpButton8
@@ -1281,7 +1285,7 @@ namespace SkinPackMaker
             this.MaterialsLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.MaterialsLayout.Location = new System.Drawing.Point(3, 32);
             this.MaterialsLayout.Name = "MaterialsLayout";
-            this.MaterialsLayout.Size = new System.Drawing.Size(450, 228);
+            this.MaterialsLayout.Size = new System.Drawing.Size(449, 226);
             this.MaterialsLayout.TabIndex = 3;
             this.MaterialsLayout.WrapContents = false;
             // 
@@ -1341,7 +1345,7 @@ namespace SkinPackMaker
             this.HWPanel.Enabled = false;
             this.HWPanel.Location = new System.Drawing.Point(3, 26);
             this.HWPanel.Name = "HWPanel";
-            this.HWPanel.Size = new System.Drawing.Size(516, 234);
+            this.HWPanel.Size = new System.Drawing.Size(515, 232);
             this.HWPanel.TabIndex = 1;
             // 
             // helpButton10
@@ -1365,7 +1369,7 @@ namespace SkinPackMaker
             this.HWMaterialsLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.HWMaterialsLayout.Location = new System.Drawing.Point(1, 32);
             this.HWMaterialsLayout.Name = "HWMaterialsLayout";
-            this.HWMaterialsLayout.Size = new System.Drawing.Size(515, 202);
+            this.HWMaterialsLayout.Size = new System.Drawing.Size(514, 200);
             this.HWMaterialsLayout.TabIndex = 6;
             this.HWMaterialsLayout.WrapContents = false;
             // 
